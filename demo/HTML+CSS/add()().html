@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function sum(num){
+        let sum = num;
+        function temp(v){
+            sum = sum + v;
+            return temp;
+        }
+
+       temp.toString= function(){
+            return sum;
+       };
+        return temp;
+    }
+
+    alert(sum(1)(3)(12));
+</script>
+</html>

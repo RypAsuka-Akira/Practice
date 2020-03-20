@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // 实现一个add方法，使计算结果能够满足如下预期：
+    //add(1)(2)(3) = 6;
+    // add(1, 2, 3)(4) = 10;
+    // add(1)(2)(3)(4)(5) = 15;
+    function  add() {
+        var _args = Array.prototype.slice.call(arguments);
+
+        var adder = function(){
+            _args.push(...arguments);
+            return adder;
+        };
+
+        adder.toString = function(){
+            return _args.reduce(function (a, b) {
+                return a + b;
+            });
+        };
+        return adder;
+    }
+
+    console.log(add(1)(2)(3),                // 6
+    add(1, 2, 3)(4),           // 10
+    add(1)(2)(3)(4)(5),         // 15
+    add(2, 6)(1));
+
+
+
+    // 取出对象里面的属性, 简单起见，省略了校验逻辑
+    const get = key => obj => obj[key];
+    const getId = get("id");
+    const getName = get("name");
+
+    const data = {
+        id: 1,
+        name: 'lucifer'
+    };
+    getId(data); // 1
+    getName(data); // lucifer
+</script>
+</html>

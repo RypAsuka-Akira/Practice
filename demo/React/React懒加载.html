@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    img{
+        margin: 200px;
+    }
+</style>
+<body>
+<div id="div1">
+    <img _src="img/39b.jpg" alt="logo">
+</div>
+</body>
+<script src="js/browser.js"></script>
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/jquery.js"></script>
+<script type="text/babel">
+    class LazyLoad extends React.Component{
+        constructor(...args){
+            super(...args);
+            this.aImgPath = this.props.img.split(",");
+
+            let _this = this;
+            window.onscroll=function(){
+                let scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+                console.log(scrollTop);
+                if(scrollTop>=_this.refs['div1'].children){
+
+                }
+            };
+
+        }
+
+        render(){
+            let arr=[];
+            for(let i=0; i<this.aImgPath.length;i++){
+                arr.push(<img  key={i} data-src={this.aImgPath[i]} alt="logo"/>);
+            }
+            return <div ref="div1">{arr}</div>
+        }
+    }
+
+    $(function(){
+        ReactDOM.render(
+            <LazyLoad  img="img/39a.jpg,img/39b.jpg,img/39c.jpg,img/39d.jpg"/>,
+           $("#div1")
+        );
+    });
+
+
+</script>
+</html>

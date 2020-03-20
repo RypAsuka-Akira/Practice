@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="div1"></div>
+</body>
+<script src="js/browser.js"></script>
+<script src="js/react.development.js"></script>
+<script src="js/react-dom.development.js"></script>
+<script src="js/jquery.js"></script>
+<script type="text/babel">
+    class HelloMessage extends React.Component{
+        constructor(...args){
+            super(...args);
+            this.state = {
+                value: 'Hello World!'
+            };
+        }
+
+        onChange(ev){
+        this.setState({
+           value:ev.target.value});
+        }
+
+        render(){
+            return <div>
+                <input type="text" value={this.state.value} onChange={this.onChange.bind(this)}/>
+                <h4>{this.state.value}</h4>
+                 </div>
+        }
+    }
+
+
+    ReactDOM.render(
+        <HelloMessage/>,
+        document.getElementById("div1"));
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>table</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #div1{
+            width: 200px;
+            height: 200px;
+            background: #eeeeee;
+            text-align: center;
+
+        }
+        th{
+            border: 1px wheat solid;
+            width: 90px;
+        }
+        td{
+            border: 1px wheat solid;
+            width: 30px;
+            text-align: center ;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+</body>
+    <script src="jquery.js"></script>
+<script src="makeTable.js"></script>
+<script>
+    $("#div1").makeTable(['姓名','学号','成绩'],[
+        {name:'张三',id:'001',score:'56'},
+        {name:'李四',id:'002',score:'89'},
+        {name:'键盘',id:'003',score:'76'},
+        {name:'何呵',id:'004',score:'81'}
+    ])
+</script>
+</html>

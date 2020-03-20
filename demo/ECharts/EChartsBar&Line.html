@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js"></script>
+  <body>
+    <div id="main" style="width: 800px; height: 600px;"></div>
+  </body>
+
+  <script>
+    let myChart = echarts.init(document.getElementById('main'))
+    let option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossSyle: {
+            color: '#999'
+          }
+          // label: {
+          //   formatter: function(params) {
+          //     console.log(params.value, params.seriesData)
+          //   }
+          // }
+        }
+      },
+      legend: {
+        data: [
+          {
+            name: '销量1',
+            icon: 'roundRect'
+          },
+          {
+            name: '销量2',
+            icon: 'roundRect'
+          },
+          {
+            name: '变化率'
+          }
+        ]
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+        }
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: '销量',
+          min: 0,
+          max: 2500,
+          interval: 625,
+          axisLabel: {
+            formatter: '{value} 万件'
+          }
+        },
+        {
+          type: 'value',
+          name: '变化率',
+          min: 0,
+          max: 10,
+          interval: 2.5,
+          axisLabel: {
+            formatter: '{value} %'
+          }
+        }
+      ],
+      series: [
+        {
+          name: '销量1',
+          type: 'bar',
+          data: [1700, 800, 700, 1300, 2550],
+          barGap: 0,
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+                {
+                  offset: 0,
+                  color: 'red'
+                },
+                {
+                  offset: 1,
+                  color: 'blue'
+                }
+              ])
+            }
+          }
+          // formatter: '{value}:{@[0]} 万件'
+        },
+        {
+          name: '销量2',
+          type: 'bar',
+          data: [900, 400, 1200, 1100, 450],
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+                {
+                  offset: 0,
+                  color: 'yellow'
+                },
+                {
+                  offset: 1,
+                  color: 'green'
+                }
+              ])
+            }
+          }
+          // formatter: '{value}:{@[0]} 万件'
+        },
+        {
+          name: '变化率',
+          type: 'line',
+          yAxisIndex: 1,
+          symbol: 'none',
+          hoverAnimation: false,
+          data: [
+            {
+              value: 4.5,
+              symbol: 'circle',
+              symbolSize: 15,
+              itemStyle: {
+                normal: {
+                  color: 'blue',
+                  borderColor: 'white',
+                  borderWidth: 3
+                  // color: {
+                  //   typpe: 'raidal',
+                  //   x: 0,
+                  //   y: 0,
+                  //   r: 20,
+                  //   colorStops: [
+                  //     {
+                  //       offset: 0,
+                  //       color: 'blue'
+                  //     },
+                  //     {
+                  //       offset: 1,
+                  //       color: 'white'
+                  //     }
+                  //   ]
+                  // }
+                }
+              }
+            },
+            2.2,
+            3.7,
+            {
+              value: 4.2,
+              symbol: 'circle',
+              symbolSize: 15,
+              itemStyle: {
+                normal: {
+                  color: 'red',
+                  borderColor: 'yellow',
+                  borderWidth: 3
+                }
+              }
+            },
+            8.1
+          ]
+          // formatter: '{value} %'
+        }
+      ]
+    }
+
+    myChart.setOption(option)
+  </script>
+  <style></style>
+</html>

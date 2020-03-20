@@ -1,0 +1,16 @@
+{
+  "name": "webpackdemo",
+  "version": "1.0.0",
+  "description": "first webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://software.myhexin.com/gitlab/lishaojie/study.git"
+  },
+  "author": "lsj",
+  "license": "ISC"
+}

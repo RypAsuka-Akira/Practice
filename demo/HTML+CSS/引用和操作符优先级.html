@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    let a = { x: 1 };
+    let b = a;
+    a = a.x = { x: 1 };
+    console.log(a);//x:1
+
+    console.log(b);//x:{x:1}
+
+</script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			{{msg|msgfilter('厨师','1')|msgfilter2()}}
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		// {{msg |}}
+		Vue.filter("msgfilter",function(msg,arg,arg2){
+			// return msg+'======='
+			return msg.replace(/杀手/g,arg+"+"+arg2)  //全局替换
+		})
+		Vue.filter("msgfilter2",function(msg){
+			return msg.replace("我","你")
+		})
+	var vm = new Vue({
+		el:"#app",
+		data:{
+			msg:"我是一个没有感情的杀手"
+		}
+	})
+	
+	</script>
+</html>

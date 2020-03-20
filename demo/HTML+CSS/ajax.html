@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Ajax</title>
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	</head>
+	
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+     #container{
+		 width: 100%;
+		 height: 100%;
+ 		 display: flex;
+		 justify-content: space-around;
+		 flex-wrap: wrap;
+		 
+     }
+
+     .list{
+		 width: 300px;
+		 height: auto;
+		 font-family: "微软雅黑";
+		 border-radius: 20px;
+		 margin-top: 20px;
+     	 background-color: #80FFFF;
+		 text-align: center;
+		 padding: 20px 30px 20px;
+		 display:flex;
+		 flex-direction: column;
+		 
+     }
+	 
+	.text{
+		 text-align: left;
+		 text-indent: 35px;
+	 }
+	 
+	 .fa{
+		font-size: 20px;
+	 }
+	 .myhide1,.myhide2{
+		 display: none;
+	 }
+	 
+	 h4{
+		 text-align: left;
+		 margin: 0;
+	 }
+
+	</style>
+
+	<body id="body">
+		<div id="container"></div>
+		
+	</body>
+
+	<script src="ajax.js"></script>
+	<script>
+		var url = "test.json";
+		var both=document.getElementById("container");
+
+		ajax("GET",url,function(data) {
+
+			var data1 = JSON.parse(data);
+			console.log(data1);
+			var arr = data1.result.list;
+			for (let i = 0, len=arr.length;i < len; i++) {
+				var div=document.createElement('div');
+				div.className = "list";
+				var str1=`<img src="${arr[i].pic}"/><h3>${arr[i].name}</h3><h4>简介：</h4><p  class="text">${arr[i].content}</p>`;
+         		
+				
+				var str2 = '';
+				
+				
+				for(let j=0, len_m=arr[i].material.length;j<len_m;j++){
+					 str2 += `<p>名称：${arr[i].material[j].mname}&nbsp&nbsp&nbsp&nbsp
+					 剂量：${arr[i].material[j].amount}
+					 
+					 </p>`;
+				}
+				
+				var mixstr2 = `<div class="hide1"><h4>原料：<i class="fa fa-arrow-circle-down mix"></i></h4><div class="myhide1">`+str2+`</div></div>`;
+				
+				var str3='';
+				for(let k=0, len_p=arr[i].process.length;k<len_p;k++){
+					 str3 += `<p>步骤${k+1}:${arr[i].process[k].pcontent}</p></br>
+					 <image src="${arr[i].process[k].pic}"></image></br>`;
+				}
+				
+				var mixstr3 = `<div class="hide2"><h4>做法：<i class="fa fa-arrow-circle-down step"></i></h4><div class="myhide2">`+str3+`</div></div>`;
+				
+				div.innerHTML=str1+mixstr2+mixstr3;
+				both.appendChild(div);
+
+			}
+			
+		var hide1 = document.querySelectorAll('.hide1');
+        var hide2 = document.querySelectorAll('.hide2');
+		var mix =document.querySelectorAll('.mix');
+        var step =document.querySelectorAll('.step');
+        var myhide1 = document.querySelectorAll('.myhide1');
+        var myhide2 = document.querySelectorAll('.myhide2');
+		for(let i=0;i<hide1.length;i++){
+            hide1[i].onclick=function(){
+                myhide1[i].style.display=='block'? myhide1[i].style.display='none': myhide1[i].style.display='block';
+                if(mix[i].className.includes('fa-arrow-circle-down')){
+                    mix[i].className='fa fa-arrow-circle-up mix'
+                }
+                else{
+                    mix[i].className='fa fa-arrow-circle-down mix'
+                }
+            }
+            hide2[i].onclick=function(){
+                myhide2[i].style.display=='block'? myhide2[i].style.display='none': myhide2[i].style.display='block';
+                if(step[i].className.includes('fa-arrow-circle-down')){
+                    step[i].className='fa fa-arrow-up step'
+                }
+                else{
+                    step[i].className='fa fa-arrow-circle-down step'
+                }
+            }
+			}
+		})
+	</script>
+	
+</html>

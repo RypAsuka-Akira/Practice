@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function compose(...funcs) {
+        if (funcs.length === 0) {
+            return arg => arg
+        }
+
+        if (funcs.length === 1) {
+            return funcs[0]
+        }
+
+        return funcs.reduce((a, b) => (...args) => a(b(...args)))
+    }
+</script>
+</html>

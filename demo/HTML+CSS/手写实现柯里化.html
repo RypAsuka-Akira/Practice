@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function curry(fn) {
+        return function inner(...args) {
+            if(args.length < fn.length) {
+                return function(...innerArgs) {
+                    return inner.apply(this, args.concat(innerArgs))
+                }
+            }
+            return fn.apply(this, args)
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // function Father() {
+    //     this.property = true;
+    // }
+    // Father.prototype.getFatherValue = function () {
+    //     return this.property;
+    // }
+    // function  Son() {
+    //     this.SonProperty = false;
+    // }
+    //
+    // //继承   原型链
+    // //instance->Son.prototype=Father() = Father.prototype.constructor, Father.prototype.constructor.prototype->Object
+    // Son.prototype = new Father();
+    // Son.prototype.getSonValue = function () {
+    //     return this.sonProperty;
+    // }
+    // var instance = new Son();
+    // alert(instance.getSonValue());
+    // alert(instance.getFatherValue());
+
+    //Object<-Father<-Son
+    // alert(instance instanceof Object);
+    // alert(instance instanceof Father);
+    // alert(instance instanceof Son);
+    //
+    // alert(Object.prototype.isPrototypeOf(instance));
+    // alert(Father.prototype.isPrototypeOf(instance));
+    // alert(Son.prototype.isPrototypeOf(instance));
+
+
+    // //借用构造函数
+    // function Father() {
+    //     this.colors = ["Red","Yellow","Blue"];
+    // }
+    // function Son() {
+    //     Father.call(this);
+    // }
+    //
+    // var instance1 = new Son();
+    // instance1.colors.push("Black");
+    // console.log(instance1.colors);
+    //
+    // var instance2 = new Son();
+    // console.log(instance2.colors)
+
+
+
+    // //组合继承
+    // function  Father(name) {
+    //     this.name = name;
+    //     this.colors = ["Red", "Blue", "Yellow"];
+    // }
+    //
+    // Father.prototype.sayName = function () {
+    //     alert(this.name);
+    // };
+    //
+    // function  Son(name, age) {
+    //     Father.call(this,name);
+    //     this.age = age;
+    // }
+    // Son.prototype = new Father();
+    // Son.prototype.sayAge = function () {
+    //     alert(this.age)
+    // };
+    //
+    // var instance1 = new Son("SH",20);
+    // instance1.colors.push("Black");
+    // console.log(instance1.colors);
+    // instance1.sayName();
+    // instance1.sayAge();
+    //
+    // var instance1 = new Son("SJ",22);
+    // console.log(instance1.colors);
+    // instance1.sayName();
+    // instance1.sayAge();
+
+    ////Object.create()函数原型
+    // function object(o) {
+    //     function F() {}
+    //     F.prototype = o;
+    //     return new F();
+    // }
+
+    //浅复制
+
+    // var person = {
+    //     friends:["Van","Louis","Nick"]
+    // };
+    //
+    // var anotherPerson = Object.create(person);
+    // anotherPerson.friends.push("Rob");
+    // var yetAnotherPerson = Object.create(person);
+    // yetAnotherPerson.friends.push("Style");
+    // alert(person.friends);
+
+    // //Object.create
+    //
+    // var person = {
+    //     name : "Van"
+    // };
+    // var anotherPerson = Object.create(person, {
+    //     name:{
+    //         value : "Louis"
+    //     }
+    // });
+    // alert(anotherPerson.name);
+
+    //寄生式继承
+    //
+    // var person = function(name){
+    //     this.name = name;
+    // };
+    // person.prototype.getName = function () {
+    //     return this.name;
+    // };
+    // var person1 = new person('Mick');
+    // person1.getName();
+    // alert(person1.__proto__)
+    // alert(person1.getName())
+
+
+    // function Person(){
+    //     this.name = "Bob";
+    //     this.job = "student";
+    //     this.like = [1,2,3,4]
+    // }
+    // Person.prototype.age = function (age) {
+    //     this.age = age;
+    // };
+    //
+    // function  Per() {
+    //     this.name = "ker";
+    // }
+    // Per.prototype = new Person();
+    // var per1 = new Per();
+    // per1.age(20);
+    // var per2 = new Per();
+    // per2.age(30);
+    // per2.job.slice(0,1);
+    // console.log(per2.job);
+    // per2.like.push(0);
+    // console.log(per1.like);
+    // console.log(per1);
+    // console.log(per2);
+
+
+    // function  Father(name="job") {
+    //     this.name = name;
+    //     this.like = ["swimming","basketball","soccer"];
+    // }
+    // Father.prototype.age = function (age) {
+    //     this.age = age
+    // };
+    //
+    // function Son() {
+    //     this.sex = "boy";
+    // }
+    //
+    // Son.prototype = new Father();
+    // Son.prototype.job = function (job) {
+    //     this.job = job;
+    // };
+    //
+    // var instance1 = new Son();
+    // instance1.age(10);
+    // instance1.job("student");
+    // instance1.like.push("shower");
+    // console.log(instance1);
+    //
+    // var instance2 = new Son();
+    // instance2.age(20);
+    // instance2.job("teacher");
+    // console.log(instance2);
+
+    // function object(o) {
+    //     function F() {}
+    //     F.prototype = o;
+    //     return new F();
+    // }
+    // var instanceF = new Father();
+    // var instanceS = object(instanceF);
+    // console.log(instanceS.name);
+
+    // function Father(name="job") {
+    //     this.name = name;
+    // }
+    // Father.prototype.getName = function () {
+    //     alert(this.name);
+    // }
+    //
+    // function Son(name) {
+    //     Father.call(this,name)
+    // }
+    //
+    // Son.prototype = new Father();
+    //
+    // var instance = new Son("David");
+    // instance.getName();
+    //
+    // function object(o) {
+    //     function F() {}
+    //     F.prototype = o;
+    //     return new F();
+    // }
+    //
+    // var instance = new Father();
+    // var instance2 = Object.create(instance);
+    // alert(instance2.name);
+    //
+    // function subObject(o) {
+    //     var sub = object(o);
+    //     sub.age = 20;
+    //     return sub;
+    // }
+    //
+    // var instance2 = subObject(instance);
+    // console.log(instance2);
+    //
+    // (function Father(name="Job") {
+    //     this.name = name;
+    //     this.like = [0,1,2,3];
+    //     console.log(Father.arguments);
+    // })("Mike");
+
+
+    //
+    // Father.prototype.getName = function () {
+    //     alert(this.name);
+    // };
+    //
+    // var instance = new Father("Mike");
+    // console.log(Object.getPrototypeOf(Father.prototype));
+
+
+    // var instance2 = {
+    //     name : "David",
+    //     age : 20
+    // }
+    // console.log(instance2);
+    //
+    // function Son(name) {
+    //     Father.call(this,name);
+    // }
+    //
+    // Son.prototype = new Father();
+    //
+    // var instance1 = new Son("David");
+    // var instance2 = new Son("Mike");
+    // instance1.like.push(4);
+    // console.log(instance1);
+    // console.log(instance2);
+
+    // var instance = {};
+    // instance.age = 12;
+    // var instance2 = instance;
+    // instance2.name = "Job";
+    // console.log(instance);
+
+    // function  setName(obj) {
+    //     obj.name = "Job";
+    //     obj = new Object();
+    //     obj.name = "Mike";
+    // }
+    // person = new Object()
+    // setName(person);
+    // console.log(person);
+
+    // function add(num1,num2) {
+    //     return sum = num1 + num2;
+    // }
+    // add(10,20);
+    // alert(sum);
+
+   // var colors = ["blue","red","green"];
+   //
+   //  Array.prototype.queen = function (item) {
+   //      this.push(item);
+   //      this.shift();
+   //  };
+   //
+   //  colors.queen("black");
+   //  console.log(colors);
+
+    // var hello = "Hello World!";
+    // alert(hello.split("").reverse().join(""));
+
+    // function  f() {
+    //     if (true){
+    //         let n = 10;
+    //     }
+    //     console.log(n);
+    // }
+
+    // f();
+    // var a = [0,1,5,50,10,15];
+    //
+    // // function compareFn(a,b) {
+    // //     return a-b;
+    // // }
+    // //
+    // // console.log(a.sort(compareFn));
+    //
+    // a.splice(1,0,3,4);
+    // console.log(a);
+
+
+    // console.log((function (n) {
+    //     if (n <= 0){
+    //         return 0;
+    //     } else {
+    //         return n + arguments.callee(n-1);
+    //     }
+    // })(100));
+
+    // var a = [0,1,2,1,2,3,4,5];
+    // var everyResult = a.every(function (item) {
+    //     return item>2;
+    // });
+    // console.log(everyResult);
+    //
+    // var someResult = a.some(function (item) {
+    //     return item>2;
+    // });
+    // console.log(someResult);
+    //
+    // var filterResult = a.filter(function (item) {
+    //     return item>2;
+    // });
+    // console.log(filterResult);
+    //
+    // var sum = 0;
+    // a.forEach(function (item) {
+    //     sum = sum + item;
+    // });
+    // console.log(sum);
+    //
+    // var mapResult = a.map(function (item) {
+    //     return item-1;
+    // });
+    // console.log(mapResult);
+
+    // function createComparisonFunction(propertyName) {
+    //     return function(object1, object2){
+    //         var value1 = object1[propertyName];
+    //         var value2 = object2[propertyName];
+    //         if (value1 < value2){
+    //             return -1;
+    //         } else if (value1 > value2){
+    //             return 1;
+    //         } else {
+    //             return 0;
+    //         }
+    //     };
+    // }
+    //
+    // var a = {
+    //     name : "job",
+    //     age : 15
+    // };
+    //
+    // var b = {
+    //     name : "Mike",
+    //     age: 20
+    // };
+    //
+    // var c = [a,b];
+    // c.sort(createComparisonFunction("age"));
+    //
+    // var Json = '[{"name":"Job", "age":"18"},{"name":"Mike","age":"20"}]';
+    // var JsonObj = {
+    //     name : "David",
+    //     age: 25
+    // };
+    //
+    //
+    // var json = JSON.parse(Json);
+    //
+    // for (var i in json){
+    //     console.log(json[i].name + " " +json[i].age);
+    // }
+    //
+    // alert(JSON.stringify(JsonObj));
+
+    // function outer(){
+    //     inner();
+    // }
+    // function inner() {
+    //     alert(arguments.callee.caller);
+    // }
+    //
+    // outer();
+
+    // function sum(num1, num2) {
+    //     return num1 + num2;
+    // }
+    //
+    // function callSum1(num1, num2) {
+    //     return sum.apply(this, arguments);
+    // }
+    //
+    // function callSum2(num1, num2) {
+    //     return sum.apply(this, [num1,num2]);
+    // }
+    //
+    // console.log(callSum1(10,10));
+    // console.log(callSum2(10,10));
+
+    // window.color  = "red";
+    // var o = {
+    //     color: "blue"
+    // };
+    //
+    // function sayColor() {
+    //     console.log(this.color);
+    // }
+    // sayColor();
+    // sayColor.call(this);
+    // sayColor.apply(window);
+    // var ObjectColor = sayColor.bind(o);
+    //
+    // console.log(ObjectColor());
+
+    //
+    // var s1 = "some text";
+    // var s2 = s1.substring(2);
+    // console.log(s2);
+    // var stringValue = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
+    // var postion = new Array();
+    // var pos = stringValue.indexOf("e");
+    //
+    // while(pos > -1){
+    //     postion.push(pos);
+    //     pos = stringValue.indexOf("e", pos+1)
+    // }
+    //
+    // console.log(postion);
+
+    // var a = [1,2,3,4];
+    // alert(Math.max.apply(Math,a));
+
+    // var person = {
+    //     name: "Mike",
+    //     age : 20
+    // };
+    // Object.defineProperty(person,"name",{
+    //     writable:false,
+    //     value:"Mike"
+    // });
+
+    // var key;
+    // for (key in person){
+    //     if(key === "name"){
+    //         console.log("name");
+    //     }else {
+    //         console.log("age");
+    //     }
+    // }
+    // Object.defineProperty(person, "name",{
+    //     get(){
+    //         return "Mike";
+    //     },
+    //     set(name){
+    //
+    //         return "数据变更为" + name;
+    //     }
+    // });
+    //
+    // console.log(person.name);
+    //
+    // console.log(person.name = "Devid");
+
+
+    // let car = {
+    //     "brand" : "BMW",
+    //     "price" : 3000
+    // }
+    //
+    // let car = {};
+    // let val = 3000;
+    // Object.defineProperty(car,"price",{
+    //     get(){
+    //         console.log("price 属性被读取了");
+    //         return val;
+    //     },
+    //     set (newVal){
+    //         console.log("Price 属性被修改了");
+    //         val = newVal;
+    //     }
+    // });
+    //
+    // console.log(car.price);
+    // console.log(car.price = 5000);
+    //
+    // var a = "hello";
+    // console.log(a[0]);
+
+    // console.log(1..__proto__ === Number.prototype);
+    // console.log('l'.__proto__ === String.prototype);
+    // console.log(true.__proto__ === Boolean.prototype);
+
+
+</script>
+</html>

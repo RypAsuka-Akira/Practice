@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    html body{
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<body>
+</body>
+<script>
+    const debounce = (func, wait) => {
+        let timer;
+        return () => {
+            clearTimeout(timer);
+            timer = setTimeout(func, wait);
+        }
+    };
+
+    const throttle = (func, wait) => {
+        let timer;
+
+        return () => {
+            if (timer) {
+                return;
+            }
+
+            timer = setTimeout(() => {
+                func();
+                timer = null;
+            }, wait);
+        };
+    };
+
+    function _debounce(fn,wait){
+        var timer = null;
+        return function(){
+            clearTimeout(timer);
+            timer = setTimeout(()=>{
+                fn()
+            },wait)
+        }
+    }
+
+    function _log(){
+        console.log(1)
+    }
+    window.onscroll = _debounce(_log,500)
+
+    // function testDebounce() {
+    //     console.log("test");
+    // }
+    // document.onmousemove = () => {
+    //     debounce(testDebounce, 100);
+    // }
+
+
+    // function _debounce(fn,wait){
+    //     let timer;
+    //     return ()=>{
+    //         clearTimeout(timer);
+    //         timer = setTimeout(fn,wait);
+    //     }
+    // }
+    // let throttle = (fn, wait) =>{
+    //     let timer;
+    //     return()=>{
+    //         if(timer){
+    //             return;
+    //         }
+    //         timer = setTimeout(()=>{
+    //             fn();
+    //             timer = null;
+    //         },wait);
+    //     };
+    // };
+</script>
+</html>

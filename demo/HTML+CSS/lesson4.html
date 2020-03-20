@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>品牌案例展示功能</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+    .container{
+        height: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .container-table{
+        width: 70%;
+        margin: auto;
+    }
+</style>
+<body>
+<div id="app">
+    <div class="container">
+    <form role="form" class="form-inline">
+        <div class="form-group">
+            <label>产品id:</label>
+            <input type="text" class="form-control" v-model="id"
+                   placeholder="请输入产品id">
+
+        </div>
+        <div class="form-group">
+            <label>品牌:</label>
+            <input type="text" class="form-control" v-model="brand"
+                   placeholder="请输入品牌">
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-success" value="添加" @click="addCar">
+        </div>
+        <div class="form-group">
+            <label>搜索品牌:</label>
+            <input type="text" class="form-control" v-model="keywords"
+                   placeholder="请输入品牌">
+        </div>
+
+
+    </form>
+    </div>
+    <div class="container-table">
+
+    <table class="table table-bordered ">
+        <thead>
+        <tr class="warning">
+            <th>id</th>
+            <th>品牌</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in search(keywords)" class="success">
+            <td>{{item.id}}</td>
+            <td>{{item.brand}}</td>
+            <td>{{item.ctime |timeformat}}</td>
+            <td><a href="" class="btn btn-danger" @click.prevent="delCar(item.id)">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.filter('timeformat',function (msg) {
+        var  y  = msg.getFullYear();
+        var  m = msg.getMonth()+1;
+        var d = msg.getDay()
+        var h = msg.getHours();
+        var min = msg.getMinutes();
+        var s = msg.getSeconds();
+       return y+'-'+m+'-'+d+'  '+h+':'+min+':'+s
+
+    })
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            id:'',
+            brand:'',
+            keywords:'',
+            list:[
+                {id:1,brand:'奔驰',ctime:new Date()},
+                {id:2,brand:'宝马',ctime:new Date()},
+                {id:3,brand:'奥迪',ctime:new Date()},
+                {id:4,brand:'阿尔法罗密欧',ctime:new Date()}
+            ]
+
+        },
+        methods:{
+            addCar(){
+                var obj = {}
+                obj.id=this.id;
+                obj.brand=this.brand;
+                obj.ctime=new Date();
+                this.list.push(obj)
+            },
+            delCar(id){
+                console.log(id)
+                this.list.some( (val, index)=> {
+                    if(val.id==id){
+
+                      this.list.splice(index,1);
+
+                        return true;
+                    }
+
+                })
+
+            },
+            search(words){
+                var arr =[];
+                this.list.forEach((val,index)=>{
+                    if(val.brand.indexOf(words)!=-1){
+                        arr.push(val)
+                    }
+                })
+                return arr;
+
+            }
+        }
+    })
+    console.log(0=="")
+</script>
+</html>

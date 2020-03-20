@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="main" style="width:100%; height: 600px;"></div>
+  </body>
+  <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js"></script>
+  <script>
+    let myChart = echarts.init(document.getElementById('main'))
+    var base = +new Date(2020, 2, 17)
+    var oneDay = 24 * 3600 * 1000
+    var date = []
+
+    var data = [
+      {
+        index: 0,
+        number: [Math.ceil(Math.random() * 150)]
+      },
+      {
+        index: 1,
+        number: [Math.ceil(Math.random() * 150)]
+      },
+      {
+        index: 2,
+        number: [Math.ceil(Math.random() * 150)]
+      },
+      {
+        index: 3,
+        number: [Math.ceil(Math.random() * 150)]
+      }
+    ]
+    var now = new Date(base)
+
+    function addData(shift) {
+      now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-')
+      console.log(now)
+      date.push(now)
+      for (let i = 0; i < 4; i++) {
+        data[i].number.push(Math.ceil((Math.random() - 0.4) * 400))
+      }
+
+      if (shift) {
+        date.shift()
+
+        for (let i = 0; i < 4; i++) {
+          data[i].number.shift()
+        }
+      }
+
+      now = new Date(+new Date(now) + oneDay)
+    }
+
+    for (var i = 1; i < 100; i++) {
+      addData()
+    }
+
+    option = {
+      legend: {
+        data: ['同花顺', '字节跳动', '阿里巴巴', '网易']
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: date
+      },
+      yAxis: {
+        boundaryGap: [0, '50%'],
+        type: 'value'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      series: [
+        {
+          name: '同花顺',
+          type: 'line',
+          smooth: true,
+          symbol: 'none',
+          stack: 'a',
+          areaStyle: {
+            normal: {}
+          },
+          data: data[0].number
+        },
+        {
+          name: '字节跳动',
+          type: 'line',
+          smooth: true,
+          symbol: 'none',
+          stack: 'a',
+          areaStyle: {
+            normal: {}
+          },
+          data: data[1].number
+        },
+        {
+          name: '阿里巴巴',
+          type: 'line',
+          smooth: true,
+          symbol: 'none',
+          stack: 'a',
+          areaStyle: {
+            normal: {}
+          },
+          data: data[2].number
+        },
+        {
+          name: '网易',
+          type: 'line',
+          smooth: true,
+          symbol: 'none',
+          stack: 'a',
+          areaStyle: {
+            normal: {}
+          },
+          data: data[3].number
+        }
+      ]
+    }
+
+    myChart.setOption(option)
+
+    setInterval(function() {
+      addData(true)
+      myChart.setOption({
+        xAxis: {
+          data: date
+        },
+        series: [
+          {
+            name: '同花顺',
+            data: data[0].number
+          },
+          {
+            name: '字节跳动',
+            data: data[1].number
+          },
+          {
+            name: '阿里巴巴',
+            data: data[2].number
+          },
+          {
+            name: '网易',
+            data: data[3].number
+          }
+        ]
+      })
+      console(1)
+    }, 500)
+  </script>
+  <style></style>
+</html>

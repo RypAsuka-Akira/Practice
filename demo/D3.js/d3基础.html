@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div>
+      <p>1</p>
+      Hello World!
+    </div>
+    <ul id="data">
+      <li></li>
+      <li></li>
+    </ul>
+    <div class="p">
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+    <svg width="500" height="500">
+      <line
+        x1="100"
+        y1="100"
+        x2="200"
+        y2="200"
+        style="stroke:rgb(255,0,0);
+                   stroke-width:2"
+      />
+      <!-- <rect x="0" y="0" width="200" height="300" fill="blue"></rect> -->
+    </svg>
+  </body>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+    d3.select('div')
+      .append('span')
+      .html(`<i>I am a append element</i>`)
+      .attr('style', 'color: red')
+    console.log(d3.select('div').classed())
+    d3.select('#data')
+      .selectAll('li')
+      .data([10, 20, 30, 25, 15])
+      .text(function(d) {
+        return d
+      })
+    d3.select('#data')
+      .selectAll('li')
+      .data([10, 20, 30, 25, 15])
+      .text(function(d) {
+        return 'this is the pre-existing element and the value is ' + d
+      })
+      .enter()
+      .append('li')
+      .text(function(d) {
+        return 'this is the dynamically created element and the value is ' + d
+      })
+    d3.selectAll('li')
+      .data([10, 20, 30, 15])
+      .exit()
+      .remove()
+    d3.select('div p')
+      .datum(100)
+      .text(function(d) {
+        return 'Used existing element and the data is ' + d + ' is be assigned'
+      })
+    d3.select('div')
+      .datum(100)
+      .append('p')
+      .text(function(d) {
+        return (
+          'Created new paragraph element and the data is ' +
+          d +
+          ' is be assigned'
+        )
+      })
+    // d3.select('#data').text(function(d, i) {
+    //   console.log(d)
+    //   console.log(i)
+    //   console.log(this)
+    //   return d
+    // })
+    d3.select('.p')
+      .selectAll('p')
+      .data([1, 2, 3])
+      .text(function(d, i) {
+        return 'the index is ' + i + ' and the data is ' + d
+      })
+  </script>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+   function arrFunc() {
+       let arr = [];
+       for (let i=0; i<10;i++) {
+           arr[i] = function () {
+               return i;
+           };
+       }
+       return arr;
+   }
+
+   console.log(arrFunc()[2]);
+
+   function foo(a){
+       let c = "closures";
+       if(typeof a === "number"|| a instanceof Number){
+           let b = a + 1;
+           console.log(b);
+       }
+       return ()=> c;
+   }
+
+   let func = foo();
+   console.log(func());
+</script>
+</html>

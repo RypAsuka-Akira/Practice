@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>请输入一个大于5小于10的数字：</p>
+<input type="text" id="number">
+<button type="button" onclick="submit()">测试输入</button>
+<p id="message"></p>
+</body>
+<script>
+function submit() {
+    let number, message;
+    number = document.getElementById("number").value;
+    message = document.getElementById("message");
+    message.innerHTML = "";
+    try {
+        if (number ==="" ){
+            throw "输入为空";
+        }
+        if (isNaN(number)){
+            throw "不是数字";
+        }
+        
+        number = Number(number);
+        
+        if (number<=5){
+            throw "输入的值太小";
+        }
+        if (number>=10){
+            throw "输入的值太大";
+        }
+    } catch (e) {
+        message.innerHTML = `${e}`;
+    }
+}
+</script>
+</html>

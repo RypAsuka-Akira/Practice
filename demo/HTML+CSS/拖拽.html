@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .box{
+        width: 100px;
+        height: 100px;
+        background: black;
+        border-radius: 20px;
+        box-shadow: #8c939d 10px 10px 5px;
+        color: #00BFFF;
+        text-shadow: 0 0 20px #00BFFF;
+        text-align: center;
+        line-height: 100px;
+        position: absolute;
+
+    }
+    .right{
+        right: 200px;
+    }
+    .left{
+        left: 200px;
+    }
+</style>
+<body>
+     <div id="div1" class="box left">DIV1</div>
+     <div id="div2" class="box right">DIV2</div>
+
+</body>
+<script>
+    class Drag{
+        constructor(id){
+            this.oDiv = document.querySelector(id);
+            this.disX = 0;
+            this.disY = 0;
+            this.init();
+        }
+        init(){
+            this.oDiv.onmousedown = function (ev) {
+                this.disX = ev.clientX - this.oDiv.offsetLeft;
+                this.disY = ev.clientY - this.oDiv.offsetTop;
+
+                document.onmousemove = this.fnMove.bind(this);
+                document.onmouseup = this.fnUp.bind(this);
+
+                return false;
+            }.bind(this)
+        }
+        fnMove(ev){
+                this.oDiv.style.left = ev.clientX - this.disX + 'px';
+                this.oDiv.style.top = ev.clientY - this.disY + 'px';
+        }
+        fnUp(){
+                document.onmousemove = null;
+                document.onmouseup = null;
+        }
+    }
+
+    class limitDrag extends Drag{
+        fnMove(ev) {
+            super.fnMove(ev);
+            if (this.oDiv.offsetLeft<0){
+                this.oDiv.offsetLeft = 0;
+            }
+        }
+    }
+    new Drag('#div1');
+    new limitDrag('#div2');
+</script>
+</html>

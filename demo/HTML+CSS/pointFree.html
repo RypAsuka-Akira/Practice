@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    JSON = [{
+        "user": "lucifer",
+        "posts": [
+            { "title": "fun fun function", "contents": "..." },
+            { "title": "time slice", "contents": "..." }
+        ]
+    }, {
+        "user": "lucifer",
+        "posts": [
+            { "title": "babel", "contents": "..." },
+            { "title": "webpack", "contents": "..." }
+        ]
+    }, {
+        "user": "karl",
+        "posts": [
+            { "title": "ramda", "contents": "..." },
+            { "title": "lodash", "contents": "..." }
+        ]
+    }];
+
+    //我们需要做的就是找到所有lucifer的文章，并将其title打印出来。
+
+    //非pointfree的写法：
+
+    fetch(url)
+        .then(JSON.parse)
+        .then(datas => datas.filter(data => data.user === 'lucifer'))
+        .then(datas => datas.map(data => data.posts).reduce((pre, next) => pre.concat(next)))
+        .then(posts => posts.map(post => post.title));
+
+    //pointfree的写法：
+
+    // 这里为了演示，并没有将fetch这样的副作用函数进行包装
+    fetch(url)
+        .then(JSON.parse)
+        .then(filter(compose(equals('lucifer'), get('user'))))
+        .then(chain(get('posts')))
+        .then(map(get('title')))
+
+    // 上面用到了一个api:chain， 可能不太好理解，我会在函数式编程-进阶部分讲解。
+    // 现在你可以把它理解为将数组拍平，就好像我在非函数式写法中的那样。
+
+
+    // 另一个比较难以理解的地方在于filter(compose(equals('lucifer'), get('user')))
+
+
+    // 这样的写法更容易理解，但是它不pointfree
+    filter(data => equals(get('user')(data), 'lucifer'))
+
+    // 等价于下面的写法（交换律）
+
+    filter(data => equals('lucifer', get('user')(data)))
+
+    // 等价于下面的写法（curry）
+    filter(data => equals('lucifer')(get('user')(data)))
+
+    // 把equal('lucifer') 看成f， get('user') 看成g
+    // 上面的代码本质上是f(g(x))
+    // 因此等价于下面的写法（compose）   f(g(x)) = compose(f, g)(X)
+    filter(data => compose(equals('lucifer'), get('user'))(data))
+
+    // 所有的形如 x => fn(x) 的代码都等价于 fn
+    // 因此上面的代码等价于
+    filter(compose(equals('lucifer'), get('user')))
+</script>
+</html>

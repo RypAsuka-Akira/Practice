@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function observable (obj) {
+        if (!obj || typeof obj !== 'object') {
+            return;
+        }
+        let keys = Object.keys(obj);
+        keys.forEach((key) =>{
+            defineReactive(obj,key,obj[key])
+        });
+        return obj;
+    }
+    class Dep{
+        constructor(){
+            this.Subs = [];
+        }
+        addSub(newSub){
+            this.Subs.push(newSub);
+        }
+        depend(){
+            if(Dep.target){
+                this.addSub(Dep.target)
+            }
+        }
+        notify(){
+            this.Subs.forEach((sub)=>{
+                sub.updata()
+            })
+        }
+    }
+    Dep.target = null;
+
+    function defineReactive (obj,key,val) {
+        let dep = new Dep();
+        Object.defineProperty(obj, key, {
+            get(){
+                dep.depend();
+                console.log(`${key}属性被读取了`);
+                return val;
+            },
+            set(newVal){
+                console.log(`${key}属性被修改了`);
+                val = newVal;
+                dep.notify();
+            }
+        })
+    }
+
+
+    // class watcher{
+    //     constructor(vm,exp,cb){
+    //         this.vm = vm;
+    //         this.exp = exp;
+    //         this.cb = cb;
+    //         this.value = this.get();
+    //     }
+    //     updata(){
+    //         let value = this.vm.data[this.exp];
+    //         let oldVal = this.value;
+    //         if(value !== oldVal){
+    //             this.value =  value;
+    //             this.cb.call(this.vm,value,oldVal);
+    //         }
+    //         get() {
+    //             Dep.target = this;
+    //             let value = this.vm.data[this.exp];
+    //             Dep.target = null;
+    //             return value
+    //         }
+    //         }
+    // }
+
+
+
+    let car = observable({
+        brand: "BMW",
+        price: 3000
+    });
+
+    console.log(car.brand);
+    console.log(car.price = 5000);
+</script>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<input type="text" id="input1" v-focus v-color>
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		Vue.directive('focus',{
+			bind:function(el){
+				
+			},
+			inserted:function(el){
+				el.focus();
+			},
+			//el为形参
+			updata:function(el){
+				
+			}
+		})
+		Vue.directive('color',{
+			bind:function(el){
+				el.style.color='red'
+			},
+			inserted:function(el){
+			
+			},
+			//el为形参
+			updata:function(el){
+				
+			}
+		})
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				
+			},
+			methods:{
+				
+			}
+		})
+	</script>
+</html>

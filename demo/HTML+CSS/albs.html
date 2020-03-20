@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>阿里笔试</title>
+</head>
+<body>
+
+</body>
+<script src="jquery-3.4.1.js"></script>
+<script src="vue.js"></script>
+<script>
+    function People(input)
+    {
+        let inputName = input;
+        this.name = inputName;
+    }
+
+    People.prototype.getName = function (){
+        return this.name;
+    };
+    People.prototype.setName = function (name){
+        this.name = name;
+    }
+</script>
+</html>

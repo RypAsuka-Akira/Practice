@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    Function.prototype.mybind=function(ctx,...args){
+        return (...innerArgs) => this.call(ctx,...args, innerArgs);
+    };
+
+    let a = {
+        name:"name of a"
+    };
+
+    function test (...msg){
+        console.log(this.name);
+        console.log(...msg);
+    }
+
+    let t = test.mybind(a,"hello");
+    t("world");
+</script>
+</html>

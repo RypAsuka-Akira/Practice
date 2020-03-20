@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    Function.prototype.mycall = function (ctx, ...args){
+        ctx.fn = this;
+        let result = ctx.fn(...args);
+        delete ctx.fn;
+        return result;
+    };
+
+    var a = 1;
+
+    var obj={
+        a:2
+    };
+    function text(){
+        console.log(this.a);
+    }
+    text.mycall(obj);
+
+</script>
+</html>

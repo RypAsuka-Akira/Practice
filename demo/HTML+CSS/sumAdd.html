@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    //不使用四则运算实现俩数相加
+    function sumAdd(a, b) {
+        if (a === 0) return b;
+        if (b === 0) return a;
+        const res = a ^ b;
+
+        return sumAdd(res, (a & b) << 1);
+    }
+
+    // var iNum = 18; //进制转换
+    // alert(iNum.toString(2));
+
+    //位运算符NOT：~
+    // var iNum2 = 25;
+    // alert(~iNum2+1);//数字取负
+   // alert(2^3);//XOR:^
+    a = sumAdd(Math.pow(2, 20),Math.pow(2, 20));
+
+    console.log(a === Math.pow(2, 21));
+
+
+</script>
+</html>

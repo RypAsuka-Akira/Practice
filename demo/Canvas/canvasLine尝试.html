@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="background" width="50" height="50"></canvas>
+    <canvas id="line" width="700" height="500"></canvas>
+  </body>
+  <script>
+    function drawBg() {
+      let canvas = document.getElementById('background')
+      console.log(canvas.height)
+      let ctxbg = canvas.getContext('2d')
+      //   ctxbg.translate(0.5, 0.5)
+      ctxbg.globalAlpha = 0.5
+      ctxbg.beginPath()
+      for (let i = 0; i <= 50; i += 10) {
+        ctxbg.moveTo(0, i)
+        ctxbg.lineTo(50, i)
+      }
+      for (let j = 0; j <= 50; j += 10) {
+        ctxbg.moveTo(j, 0)
+        ctxbg.lineTo(j, 50)
+      }
+      ctxbg.stroke()
+      console.log(canvas.toDataURL())
+      return canvas.toDataURL()
+    }
+
+    function drawInit() {
+      //数字间隔距离   X轴数字递增尺度   Y轴数字递增尺度
+      let ctx = document.getElementById('line').getContext('2d')
+      let img = new Image()
+      img.src = drawBg()
+      img.onload = function() {
+        for (let i = 0; i < 10; i++) {
+          for (let j = 0; j < 14; j++) {
+            ctx.drawImage(img, j * 50, i * 50, 50, 50)
+          }
+        }
+      }
+      //绘制坐标轴
+      ctx.beginPath()
+      ctx.moveTo(20, 480)
+      ctx.lineTo(20, 40)
+      ctx.moveTo(20, 480)
+      ctx.lineTo(680, 480)
+      ctx.stroke()
+
+      ctx.beginPath()
+      ctx.moveTo(15, 40)
+      ctx.lineTo(25, 40)
+      ctx.lineTo(20, 30)
+      ctx.lineTo(15, 40)
+      ctx.fill()
+
+      ctx.beginPath()
+      ctx.moveTo(680, 475)
+      ctx.lineTo(680, 485)
+      ctx.lineTo(690, 480)
+      ctx.lineTo(680, 475)
+      ctx.fill()
+      //绘制坐标
+      ctx.font = '20px serif'
+      ctx.textBaseline = 'middle'
+
+      for (let i = 0; i < 10; i++) {
+        ctx.font = `${i * 5}`
+        ctx.fillText(i, 5, 480 - i * 30)
+      }
+
+      ctx.textBaseline = 'top'
+
+      for (let i = 0; i < 10; i++) {
+        ctx.font = `${i * 5}`
+        ctx.fillText(i, 15 + i * 30, 480)
+      }
+
+      let data = [2, 4, 7, 6, 8]
+      ctx.beginPath()
+      ctx.moveTo(20, 480)
+
+      for (let i = 0; i < data.length; i++) {
+        let point = {
+          x: 20 + 30 + i * 30,
+          y: 480 - data[i] * 30
+        }
+        ctx.fillRect(point.x - 2.5, point.y - 2.5, 5, 5)
+        ctx.lineTo(point.x, point.y)
+      }
+
+      ctx.stroke()
+    }
+    drawInit()
+  </script>
+  <style></style>
+</html>

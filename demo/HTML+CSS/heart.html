@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#container{
+			width: 600px;
+			height: 600px;
+			margin: 100px auto;
+			background: url(img/bg.png) no-repeat center/100% 100%;
+			box-shadow: 0 0 30px lightseagreen;
+			display: flex;
+			position: relative;
+			justify-content: center;
+			align-items: center;
+		}
+		#wife{
+			width: 250px;
+			height: 250px;
+			position:absolute;
+			top: 175px;
+			left: 175px;
+			border-radius: 20px;
+			animation: toki 2s infinite;
+			display: none;
+		}
+		#heart{
+			width: 450px;
+			height: 450px;
+			position: absolute;
+			top: 140px;
+			left: 55px;
+			display: flex;
+		}
+		#left, #right{
+			width: 50%;
+			height: inherit;
+			
+		}
+		ul{
+			width: 100%;
+		}
+		ul li{
+			width: 100%;
+			height: 40px;
+			list-style: none;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: row-reverse;
+		
+		}
+		ul li div{
+			width: 34px;
+			height: 34px;
+			background:url(img/39s.jpg) no-repeat center/100% 100%;
+			border-radius: 3px;
+			margin: 3px;
+			
+		}
+		#right ul li{
+			flex-direction: row;
+					
+		}
+		
+		@keyframes toki{
+			0%{transform: scale(1);}
+			50%{transform: scale(1.3);}
+			100%{transform: scale(1);}
+		}
+	</style>
+	<body>
+		<div id="container">
+			<img src="img/39b.jpg" id="wife" />
+			<div id="heart">
+				<div id="left">
+					<ul>
+						<li style="padding-right: 40px">
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+						</li>
+					</ul>
+				</div>
+				<div id="right">
+					<ul>
+						<li style="padding-left: 80px">
+							<div></div>
+							<div></div>
+						</li>
+						<li style="padding-left: 40px">
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							<div></div>
+							
+						</li>
+						<li>
+							<div></div>
+							<div></div>
+							
+						</li>
+						<li>
+							<div></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="jquery-3.4.1.js"></script>
+	<script>
+		var num=0;
+		$("#heart div").each(function(){
+			$(this).css({
+				top:'-200px',
+				position:'relative',
+				opacity:0,
+			});
+			var t = Math.random()*1000>>0;
+			$(this).delay(t).animate({
+				top:'0px',
+				opacity:1,
+			},1000)
+			
+			num++;
+			
+			if(num==48){
+				setTimeout(function(){
+					$("#heart").fadeOut(2000);
+					$("#wife").fadeIn(3000);
+				},2000);
+			}
+		});
+	</script>
+</html>

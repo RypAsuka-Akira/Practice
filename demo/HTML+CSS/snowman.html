@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>snow</title>
+</head>
+<style type="text/css">
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+header{
+	background:url("img/header-bg.png");
+	height:315px;
+}
+section{	
+	width:960px;
+	height:inherit;
+	margin:auto;
+	background:url("img/wrapper-bg.png") no-repeat 0px 203px,url("img/snow-bg.png") 0px 0px;
+	animation: move 15s linear infinite;
+	}
+
+	@keyframes move{
+		from{background-position-y:203px, 0px}
+		to{background-position-y:203px, 500px}
+	}
+
+tree{
+	width: 112px;
+	height: 137px;
+	display: block;
+	background: url("img/christmas-tree.png");
+	position: absolute;
+}
+tree:nth-child(1){
+	left: 300px;
+	top: 100px;
+}
+tree:nth-child(2){
+	left: 450px;
+	top: 120px;
+}
+tree:nth-child(3){
+	left: 600px;
+	top: 130px;
+}
+tree:nth-child(4){
+	left: 750px;
+	top: 125px;
+}
+tree:nth-child(5){
+	left: 950px;
+	top: 110px;
+}
+tree:nth-child(6){
+	left: 1150px;
+	top: 120px;
+}
+
+snowman{
+	width: 115px;
+	height: 103px;
+	top: 200px;
+	display: block;
+	background: url("img/snowman.png");
+	position: absolute;
+	animation: snowman 7s  infinite alternate;
+}
+
+ @keyframes snowman{
+ 	0%{left: 300px;}
+ 	100%{left: 1200px;}
+ }
+
+</style>
+
+<body>
+<header>
+	<section>
+		<tree></tree>
+		<tree></tree>
+		<tree></tree>
+		<tree></tree>
+		<tree></tree>
+		<tree></tree>
+		<snowman></snowman>
+	</section>
+</header>
+</body>
+</html>

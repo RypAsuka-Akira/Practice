@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>mouse-star</title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			canvas{
+				background:linear-gradient(to bottom,#000000 0%,#214a83 100%);
+				display: block;
+			}
+			body{
+				overflow: hidden;
+				position:relative;
+			}
+			.bg{
+				width: 100%;
+				height: 250px;
+				background-image: url(img/xkbg.png);
+				background-repeat:repeat-x;
+				position: absolute;
+				bottom: 0;
+			}
+			.filter{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				background: mediumorchid;
+				animation:change 10s ease-in-out infinite;
+				mix-blend-mode:overlay ;
+			}
+			
+			@keyframes change{
+				0%,100%{
+					opacity:0;
+				}
+				50%{
+					opacity: .9;
+				}
+				
+			}
+		</style>
+	</head>
+	<body>
+		<div class="bg"></div>
+		<div class="filter"></div>
+		<canvas id="canvas"></canvas>
+	</body>
+	<script>
+		var canvas = document.getElementById("canvas");
+		var width=canvas.width = window.innerWidth;
+		var height=canvas.height = window.innerHeight;
+		var ctx = canvas.getContext('2d');
+		var num = 200;
+		var balls = [];
+		
+		function init(){
+			for(let i=0;i<num;i++){
+				var obj={};
+				obj.x = ~~(Math.random()*width);   //~~(number)          number>>0
+				obj.y = Math.random()*height>>0;
+				obj.vx = Math.random()*0.6-0.3;
+				obj.vy = Math.random()*0.6-0.3;
+				balls.push(obj);
+	
+				circle(obj.x,obj.y);
+			}
+			console.log(balls);
+		}
+		
+		
+		function circle(x,y){
+			ctx.beginPath();
+			ctx.arc(x,y,5,0,Math.PI*2,true);
+			var grd = ctx.createRadialGradient(x,y,2,x,y,5);
+			grd.addColorStop(0,'rgba(193,193,60,1)');
+			grd.addColorStop(1,'rgba(255,255,255,0)');
+			ctx.fillStyle=grd;
+			ctx.fill();
+			ctx.closePath();
+			ctx.restore();
+		}
+		
+		
+		
+		var clt={};
+		document.onmousemove=function(e){
+		clt.x = e.clientX;
+		clt.y = e.clientY;
+		console.log(clt);
+		}
+		
+		function move(){
+			ctx.clearRect(0,0,width,height)
+			for(let i =0;i<num;i++){
+				balls[i].x +=  balls[i].vx;
+				balls[i].y +=  balls[i].vy;
+				if(balls[i].x<0||balls[i].x>width){
+					balls[i].vx=-balls[i].vx;
+				}
+				if(balls[i].y<0||balls[i].y>height){
+					balls[i].vy=-balls[i].vy;
+				}
+				for(let j=i+1;j<num;j++){
+					if(Math.pow(balls[i].x-balls[j].x,2)+Math.pow(balls[i].y-balls[j].y,2)<=70*70){
+						drawline(balls[i].x,balls[i].y,balls[j].x,balls[j].y);
+					}
+				}
+				
+				if(Math.pow(balls[i].x-clt.x,2)+Math.pow(balls[i].y-clt.y,2)<=80*80){
+					drawline(balls[i].x,balls[i].y,clt.x,clt.y);
+				}
+				
+				circle(balls[i].x,balls[i].y)
+			}
+			// setTimeout(move,100);
+			requestAnimationFrame(move);
+		}
+		
+		function drawline(x1,y1,x2,y2){
+			ctx.beginPath();
+			ctx.moveTo(x1,y1);
+			ctx.lineTo(x2,y2)
+			var grd = ctx.createLinearGradient(x1,y1,x2,y2);
+			grd.addColorStop("0","magenta");
+			grd.addColorStop("0.5","blue");
+			grd.addColorStop("1.0","red");
+			ctx.strokeStyle=grd;
+			ctx.stroke();
+			ctx.closePath(); 
+			ctx.restore();
+		}
+		
+		
+		init();
+		move();
+	
+		
+	</script>
+</html>

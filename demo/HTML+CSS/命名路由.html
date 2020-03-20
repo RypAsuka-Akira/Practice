@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>命名路由</title>
+    <script src="vue.js"></script>
+    <script src="vue-router.js"></script>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    header{
+        height: 150px;
+        background: rgba(0,0,0,.7);
+        color: #fff;
+        text-align: center;
+        line-height: 200px;
+    }
+    .contianter{
+        width: 100%;
+        height: 400px;
+        display: flex;
+        line-height: 400px;
+    }
+    .contianter div:nth-child(1){
+        flex: 1;
+        background: #00BFFF;
+        text-align: center;
+    }
+    .contianter div:nth-child(2){
+        flex: 4;
+        background: #FF1493;
+        text-align: center;
+     }
+</style>
+<body>
+<div id="app">
+    <router-view></router-view>
+    <div class="contianter">
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+</div>
+</body>
+<script>
+    var head={
+        template:'<header>这里是头文件</header>'
+    }
+    var left={
+        template:'<div>这里是left</div>'
+    }
+    var main={
+        template:'<div>这里是main</div>'
+    }
+
+    var router = new VueRouter({
+        routes:[
+            // {path:'/',redirect:'/head'},
+            // {path:'/head',compoent:head},
+            // {path:'/left',compoent:head},
+            // {path:'/main',compoent:head},
+            {path:'/',components:{
+                "default":head,"left":left,"main":main
+                }}
+
+        ]
+    })
+
+    var rm=new Vue({
+        el:'#app',
+        router
+    })
+</script>
+</html>

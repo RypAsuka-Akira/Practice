@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script src="jquery-3.4.1.js"></script>
+<script>
+    var scriptEle = document.createElement("script");
+    scriptEle.type = "text/javascript";
+    scriptEle.async = true;
+    var x = document.getElementsByTagName("head")[0];
+    x.insertBefore(scriptEle, x.firstChild)
+</script>
+</html>

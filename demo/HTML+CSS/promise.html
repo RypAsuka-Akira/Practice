@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // let a = 10;
+    // let promise = new Promise(function (resolve, reject) {
+    //     if (a===10){
+    //         resolve('成功');
+    //     } else {
+    //         reject('失败');
+    //     }
+    // });
+    // promise.then(res=>{
+    //     console.log(res);
+    // }).catch(err=>{
+    //     console.log(err);
+    // });
+
+    // let p1 = Promise.resolve('aaa');
+    // p1.then(res=>{
+    //     console.log(res);
+    // });
+
+    //等价于
+    // let p2 = new Promise(resolve => {
+    //     resolve('aaa')
+    // });
+    // p2.then(res=>{
+    //     console.log(res);
+    // });
+
+    // let p3 = new Promise((resolve, reject) =>{
+    //     reject('aaaa');
+    // } );
+    // p3.then().catch(err=>{
+    //     console.log(err);
+    // });
+
+    //
+    // let p1 = Promise.resolve('aaa');
+    // let p2 = Promise.reject('bbb');
+    // let p3 = Promise.resolve('ccc');
+    // Promise.race([p1,p2,p3]).then(res=>{
+    //     console.log(res);
+    // }).catch(err=>{
+    //     console.log(err);
+    // });
+
+
+   // let json = {
+   //     name: 'mike',
+   //     age: 18,
+   //     job:'student'
+   // };
+   //
+   // let {name:n,age:a,job:j, like:l = "basketball"} = json;
+   // console.log(n,a,j,l);
+   //  let promise = new Promise((resolve, reject) => {
+   //      resolve(setTimeout(()=>{
+   //          console.log(1);
+   //      },1000));
+   //      reject(console.log(2));
+   //  }).then(res=>{
+   //      console.log(3);
+   //  }).catch(err=>{
+   //          console.log(4)
+   //  })
+</script>
+</html>

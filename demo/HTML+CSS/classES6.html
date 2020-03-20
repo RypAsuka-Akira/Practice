@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    class Person{
+        constructor(name, age){
+            this.name = name;
+            this.age = age;
+        }
+        showName = () =>{
+           return `名字为${this.name}`;
+        }
+        showAge = () => {
+            return `年龄为字为${this.age}`;
+        }
+    }
+
+
+    class Student extends  Person{
+        constructor(name,age,skill="英语"){
+            super(name,age);
+            this.skill = skill;
+        }
+        showSkill(){
+            return `我的技能是${this.skill}`;
+        }
+    }
+
+    let p1 = new Student('Mike',18);
+    console.log(p1.showName(),p1.showAge(),p1.showSkill());
+</script>
+</html>

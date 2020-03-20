@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="main" style="width: 800px; height: 600px;"
+  </body>
+  <script src="https://cdn.bootcss.com/echarts/4.6.0/echarts.min.js"></script>
+  <script src="map/js/china.js"></script>
+  <script>
+    let chart = echarts.init(document.getElementById('main'))
+    chart.setOption({
+      series: [
+        {
+          type: 'map',
+          map: 'china'
+        }
+      ]
+    })
+  </script>
+  <style></style>
+</html>

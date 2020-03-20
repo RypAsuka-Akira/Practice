@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    // 借用构造函数继承， 向Parent传参
+    // 优点：
+    // 1.避免了引用类型的属性被所有实例共享
+    // 2.可以在Child中向Parent传参
+    // 缺点：
+    // 1.只是子类的实例，不是父类的实例
+    // 2.方法都在构造函数中定义，每次创建实例都会创建一遍方法
+    function Person(name){
+        this.name = name;
+    }
+
+    Person.prototype.getName = function(){
+        console.log(this.name);
+    };
+
+    function Child(name){
+        Person.call(this,name);
+    }
+
+    var child1 = new Child('xiaopao');
+    var child2 = new Child('lulu');
+    // console.log(child1.name); // xiaopao
+    // console.log(child2.name); // lulu
+    // console.log(child1 instanceof Person); // false   不能识别是Person的实例
+    console.log(child1.constructor);
+    console.log(child1.__proto__);
+</script>
+</html>

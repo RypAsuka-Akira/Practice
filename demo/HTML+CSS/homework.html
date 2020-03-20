@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>homework</title>
+</head>
+
+<style type="text/css">
+	*{
+		padding: 0px;
+		margin: 0px;
+	}
+	#bg{
+		width: 100%;
+		height: 600px;
+		margin: auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: flex-end;
+		background: linear-gradient(to top right,#5CADAD,#CA8EC2);
+	}
+
+	#parent{
+		width: 1000px;
+		height: 400px;
+		margin: auto;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: flex-end;
+
+		z-index: 2;
+
+	}
+	#left-out{
+		width: 200px;
+		height: 400px;
+		background: linear-gradient(to right,#FFFF37,#FFA042);
+		text-align: center;
+		transition:  2s;
+		
+
+		font-size: 120px;
+		font-family: SimSun;
+		font-weight: bold;
+		color: white;
+		line-height: 400px;
+	
+
+
+	}
+	#center-out{
+		width: 200px;
+		height: 400px;
+		background: linear-gradient(to right,#80FFFF,#4EFEB3);
+		text-align: center;
+		transition:  2s;
+		
+
+		font-size: 120px;
+		font-family: SimSun;
+		font-weight: bold;
+		color: white;
+		line-height: 400px;
+	}
+	#right-out{
+		width: 200px;
+		height: 400px;
+		background: linear-gradient(to top right,#FBFBFF,#4A4AFF);
+		text-align: center;
+		transition:  2s;
+		
+
+		font-size: 120px;
+		font-family: SimSun;
+		font-weight: bold;
+		color: white;
+		line-height: 400px;
+
+	}
+
+
+	#left-out:hover{
+		transform-origin: bottom; 
+		height: 50px;
+		font-size: 30px;
+		line-height: 50px;
+
+	}
+
+	#center-out:hover{
+		transform-origin: bottom; 
+		height: 50px;
+		font-size: 30px;
+		line-height: 50px;
+	}
+
+	#right-out:hover{
+		transform-origin: bottom; 
+		height: 50px;
+		font-size: 30px;
+		line-height: 50px;
+	}
+
+
+
+	#left-in{
+		width: 200px;
+		height: 400px;
+		background-color: white;
+		color: black;
+		text-align: center;
+		line-height: 400px;
+		position: absolute;
+		left:367px;
+		top:100px;
+
+
+		
+
+		z-index: 1;
+
+	}
+
+	#center-in{
+		width: 200px;
+		height: 400px;
+		background-color: white;
+		color: black;
+		text-align: center;
+		line-height: 400px;
+		position: absolute;
+		left:700px;
+		top:100px;
+
+
+		
+
+		z-index: 1;
+
+	}
+	#right-in{
+		width: 200px;
+		height: 400px;
+		background-color: white;
+		color: black;
+		text-align: center;
+		line-height: 400px;
+		position: absolute;
+		left:1033px;
+		top:100px;
+
+
+		
+
+		z-index: 1;
+
+	}
+
+
+	
+
+	
+
+
+
+	
+</style>
+	
+<body>
+<div id="bg">
+	
+<div id="parent">
+
+<div id="left-out">
+01
+</div>
+
+<div id="center-out">
+02
+</div>
+
+<div id="right-out">
+03
+</div>
+
+
+</div>
+<div id="left-in">YOU FIND ME</div>
+<div id="center-in">YOU FIND ME</div>
+<div id="right-in">YOU FIND ME</div>
+</div>
+
+
+
+</body>
+</html>

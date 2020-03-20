@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <ul></ul>
+</div>
+</body>
+<script src="jquery-3.4.1.js"></script>
+<script>
+    (function init() {
+        for(let i=0; i<3; i++){
+            $("#app ul").append("<li></li>");
+        }
+    })();
+</script>
+<style>
+    #app ul li{
+        list-style-type: circle;
+        float: left;
+        margin: 0 10px;
+    }
+</style>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>爱奇艺</title>
+	</head>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#container{
+			width: 100%;
+			height: 490px;
+			/* border: #00BFFF 1px solid; */
+			display: flex;
+			position: relative;
+		}
+		#pic{
+			width: 1700px;
+			height: inherit;
+			/* border: red 1px solid; */
+		}
+		#nav{
+			width: 280px;
+			height: inherit;
+			/* border: orange 1px solid; */
+			position: absolute;
+			right: 60px;
+		}
+		#text{
+			width: inherit;
+			height: inherit;
+			opacity: 0.7;
+			background: #000000;
+		}
+		#text li{
+			width: 260px;
+			list-style: none;
+			line-height: 45px;
+			padding-left: 20px;
+		}
+		#text li a{
+			text-decoration: none;
+			color: white;
+			display: block;
+			width: inherit;
+			height: inherit;
+			
+		}
+		#text li.currtext a{
+			color:chartreuse;
+		}
+		#images li{
+			display: none;
+		}
+		#images li.currimg{
+			display: block;
+		}
+		img{
+			width: 100%;
+		}
+	</style>
+	<body>
+		<div id="container">
+			<div id="pic">
+				<ul id="images">
+					<li class="currimg"><img src="img/少年派.webp.jpg"/></li>
+					<li><img src="img/乐队的夏天.webp.jpg"/></li>
+					<li><img src="img/我的真朋友.jpg"/></li>
+					<li><img src="img/极限挑战.jpg"/></li>
+					<li><img src="img/筑梦情缘.jpg"/></li>
+					<li><img src="img/唱作人.jpg"/></li>
+					<li><img src="img/临界天下.jpg"/></li>
+					<li><img src="img/奔跑吧.jpg"/></li>
+					<li><img src="img/白发.jpg"/></li>
+					<li><img src="img/何以为家.jpg"/></li>
+				</ul>
+			</div>
+			<div id="nav">
+				<ul id="text">
+					<li class="currtext"><a href="">少年派：张嘉译闫妮“练娃记</a></li>
+					<li><a href="">乐队：中国第一女鼓手燃爆全场</a></li>
+					<li><a href="">我的真朋友：真真陪伴芃橙创业</a></li>
+					<li><a href="">极限挑战：张艺兴热巴互卖食物</a></li>
+					<li><a href="">筑梦情缘：霍建华杨幂重拾爱情</a></li>
+					<li><a href="">唱作人：常石磊放言重回上位区</a></li>
+					<li><a href="">临界天下：郑元畅张铭恩守玄沧</a></li>
+					<li><a href="">奔跑吧3：Baby冷静作战获赞</a></li>
+					<li><a href="">白发：无忧再次求容乐相嫁</a></li>
+					<li><a href="">何以为家：12岁男孩控告父母</a></li>
+				</ul>
+			</div>
+		</div>
+	</body>
+	<script src="jquery-3.4.1.js"></script>
+	<script>
+		var item = 0;
+		
+		$("#text li").hover(function(){
+		    item = $(this).index();
+			console.log(item);
+			$(this).addClass('currtext').siblings().removeClass('currtext');
+			$("#images li").eq(item).addClass('currimg').siblings().removeClass('currimg');
+			clearInterval(timer);
+		},function(){
+			timer = setInterval(autoplay,2000);
+		});
+		
+		let autoplay=()=>{
+			$("#text li").eq(item).addClass('currtext').siblings().removeClass('currtext');
+			$("#images li").eq(item).addClass('currimg').siblings().removeClass('currimg');
+			item++;
+			console.log(item);
+			if(item>=10){
+				item=0;
+			}
+		}
+		var timer = setInterval(autoplay,2000);
+	</script>
+</html>

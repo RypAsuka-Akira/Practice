@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <ul id="ul1">
+
+   </ul>
+</body>
+<script>
+    let data = [
+        {title:1,ready:100},
+        {title:2,ready:200},
+        {title:3,ready:300},
+        {title:4,ready:400},
+        {title:5,ready:500},
+        {title:6,ready:600},
+    ];
+    window.onload = function () {
+        let oul = document.querySelector('#ul1');
+
+        for (let i=0; i<data.length; i++){
+            let oli = document.createElement('li');
+            oli.innerHTML = `<span>${data[i].title}</span><span>${data[i].ready}</span><a href="baidu.com">详情</a>`;
+            oul.appendChild(oli);
+        }
+    };
+</script>
+</html>

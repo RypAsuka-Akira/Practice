@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script type="module">
+    import {a as aa,b,c} from './模块化js.js';
+    console.log(aa,b,c);
+    import * as test from './模块化js2.js';
+    console.log(test);
+    import mod, {a,b as bb,sum,show} from './模块化js3.js';
+    let p1 = new mod.Person("李少杰",21);
+    console.log(p1.showName());
+    show();
+    sum();
+    console.log(a,bb);
+
+
+</script>
+</html>

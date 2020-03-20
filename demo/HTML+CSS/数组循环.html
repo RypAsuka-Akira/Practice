@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    let a = [1,2,3,4,5];
+    a.forEach((val,index,arr)=>{
+        console.log(val+1);
+    });
+    let b = a.map((item, index, arr)=>{
+          return item + 1;
+    });
+    console.log(b);
+    let c = a.filter((val,index,arr)=>{
+                return val>3;
+    });
+    console.log(c);
+
+
+</script>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	<style>
+		.container{
+			width: 600px;
+			display: grid;
+			grid-template-columns: repeat(3,100px);
+			grid-template-rows: repeat(7,100px);
+			grid-auto-flow: row dense;
+		}
+		#div-1{
+			background-color: #4A4AFF;
+			border-radius: 20px;
+			grid-column-start: 1;
+			grid-column-end: 3; 
+		}
+		#div-2{
+			background-color: #FF69B4;
+			border-radius: 20px;
+			grid-row-start: 2;
+			grid-row-end: 4; 
+			grid-column-start: 3;
+			grid-column-end: 4; 
+		}
+		#div-3{
+			background-color: bisque;
+			border-radius: 20px;
+		}
+		#div-4{
+			background-color: blue;
+			border-radius: 20px;
+		}
+		#div-5{
+			background-color: deepskyblue;
+			border-radius: 20px;
+		}
+		#div-6{
+			background-color: deeppink;
+			border-radius: 20px;
+		}
+		#div-7{
+			background-color: mediumspringgreen;
+			border-radius: 20px;
+		}
+		#div-8{
+			background-color: yellow;
+			border-radius: 20px;
+		}
+		#div-9{
+			background-color: darkorange;
+			border-radius: 20px;
+			grid-column-start: 2;
+			grid-column-end: 4; 
+		}
+		
+	</style>
+	</head>
+	<body>
+		<div class="container">
+			<div id="div-1">1</div>
+			<div id="div-2">2</div>
+			<div id="div-3">3</div>
+			<div id="div-4">4</div>
+			<div id="div-5">5</div>
+			<div id="div-6">6</div>
+			<div id="div-7">7</div>
+			<div id="div-8">8</div>
+			<div id="div-9">9</div>
+		</div>
+	</body>
+</html>

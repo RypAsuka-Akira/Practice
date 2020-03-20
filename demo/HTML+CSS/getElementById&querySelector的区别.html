@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <ul>
+     <li>aaa</li>
+     <li>bbb</li>
+     <li>ccc</li>
+ </ul>
+</body>
+<script>
+    // let ul = document.getElementsByTagName('ul')[0];
+    // let lis = document.getElementsByTagName('li');
+
+    let ul = document.querySelector('ul');
+    let lis =document.querySelectorAll('li');
+    console.log(lis.length);
+
+
+    for (let i=0; i<lis.length; i++){
+        let newLi = document.createElement('li');
+        ul.appendChild(newLi);
+    }
+
+    console.log(lis.length);
+</script>
+</html>

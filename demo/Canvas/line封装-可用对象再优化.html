@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="line" width="700" height="500"></canvas>
+  </body>
+  <script>
+    function drawLine(
+      data, //数据源
+      canvasID,
+      gridLength, //栅格背景的密度
+      paddingOffset, //边界偏移量，实现Padding效果   单位：格
+      distanceOfNumber, //数字间距      单位：格
+      XAxisScaleNumber, //X轴数字跨度
+      YAxisScaleNumber //Y轴数字跨度
+    ) {
+      //init  grid
+      let canvas = document.getElementById(canvasID)
+      let width = canvas.width
+      let height = canvas.height
+      let ctx = canvas.getContext('2d')
+
+      ctx.globalAlpha = 0.5
+      ctx.beginPath()
+      for (let i = 0; i <= height; i += gridLength) {
+        ctx.moveTo(0, i)
+        ctx.lineTo(width, i)
+      }
+      for (let j = 0; j <= width; j += gridLength) {
+        ctx.moveTo(j, 0)
+        ctx.lineTo(j, height)
+      }
+      ctx.stroke()
+
+      //init axis
+      ctx.globalAlpha = 1
+
+      let origin = {
+        x: paddingOffset * gridLength,
+        y: height - paddingOffset * gridLength
+      }
+
+      ctx.beginPath()
+      ctx.moveTo(origin.x, origin.y)
+      ctx.lineTo(width - paddingOffset * gridLength, origin.y) //绘制X轴   X轴末尾位置
+      ctx.moveTo(origin.x, origin.y)
+      ctx.lineTo(origin.x, paddingOffset * gridLength) //绘制Y轴   Y轴末尾位置
+      ctx.stroke()
+
+      ctx.beginPath() //绘制X轴箭头
+      ctx.moveTo(width - paddingOffset * gridLength, origin.y)
+      ctx.lineTo(
+        width - (paddingOffset + 1) * gridLength,
+        origin.y + gridLength / 2
+      )
+      ctx.lineTo(
+        width - (paddingOffset + 1) * gridLength,
+        origin.y - gridLength / 2
+      )
+      ctx.lineTo(width - paddingOffset * gridLength, origin.y)
+      ctx.fill()
+
+      ctx.beginPath() //绘制Y轴箭头
+      ctx.moveTo(origin.x, paddingOffset * gridLength)
+      ctx.lineTo(origin.x - gridLength / 2, (paddingOffset + 1) * gridLength)
+      ctx.lineTo(origin.x + gridLength / 2, (paddingOffset + 1) * gridLength)
+      ctx.lineTo(origin.x, paddingOffset * gridLength)
+      ctx.fill()
+
+      //绘制坐标
+      ctx.font = '20px serif'
+      let XAxisLength = width - 2 * paddingOffset * gridLength
+      let YAxisLength = height - 2 * paddingOffset * gridLength
+      //origin绘制
+      ctx.fillText(0, origin.x - gridLength * 1.5, origin.y + gridLength * 1.5)
+      //绘制X轴坐标
+      ctx.textBaseline = 'top'
+      for (
+        let i = 1;
+        i < Math.floor(XAxisLength / (distanceOfNumber * gridLength));
+        i++
+      ) {
+        ctx.fillText(
+          i * XAxisScaleNumber,
+          origin.x + i * (distanceOfNumber * gridLength),
+          origin.y
+        )
+      }
+      //绘制Y轴坐标
+      ctx.textBaseline = 'middle'
+      ctx.textAlign = 'center'
+      for (
+        let i = 1;
+        i < Math.floor(YAxisLength / (distanceOfNumber * gridLength));
+        i++
+      ) {
+        ctx.fillText(
+          i * YAxisScaleNumber,
+          origin.x - gridLength,
+          origin.y - i * (distanceOfNumber * gridLength)
+        )
+      }
+
+      //绘制折线
+      ctx.beginPath()
+      ctx.moveTo(origin.x, origin.y)
+
+      for (let i = 0; i < data.length; i++) {
+        let point = {
+          x: origin.x + (i + 1) * distanceOfNumber * gridLength,
+          y:
+            origin.y -
+            (data[i] * distanceOfNumber * gridLength) / YAxisScaleNumber
+        }
+        ctx.fillRect(
+          point.x - gridLength / 4,
+          point.y - gridLength / 4,
+          gridLength / 2,
+          gridLength / 2
+        )
+        ctx.lineTo(point.x, point.y)
+      }
+      ctx.stroke()
+    }
+    let data = [5, 7, 6, 9, 13, 15, 8]
+    drawLine(data, 'line', 10, 2, 3, 2, 2)
+  </script>
+  <style></style>
+</html>

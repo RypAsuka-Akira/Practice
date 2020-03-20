@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ES6</title>
+	<style>
+		#test{
+			width: 200px;
+			height: 200px;
+			background: #00BFFF;
+			position: absolute;
+			top: 200px;
+			left: 500px;
+			
+			
+			
+		}
+	</style>
+</head>
+<body>
+	<div id="test"></div>
+</body>
+<script src="jquery-3.4.1.js"></script>
+<script >
+// 		var oajax = new XMLHttpRequest()||new ActiveXObject("Microsoft.XMLHTTP");
+// 		oajax.open("GET","test.json",true);//方法、文件路径url、是否异步
+// 		oajax.send();
+// 		oajax.onreadystatechange=function(){
+// 			if(oajax.readyState == 4){
+// 				if(oajax.status=200){
+// 					alert(oajax.responseText);
+// 
+// 					
+// 				}else{
+// 					alert(oajax.status);
+// 				}
+// 			}
+// 		}
+		// function show(a,b){
+		// 	console.log(a,b);
+		// }
+		// show('tom','jack');
+		// 
+		// var arr=['a','b','c'];
+		// console.log(...arr);
+		
+		$("#test").mouseenter(function(){
+			var left = Math.random()*(window.innerWidth-200);
+			var top = Math.random()*(window.innerHeight-200);
+			var nowleft = $(this).css("left");
+			var nowtop = $(this).css("top");
+			console.log("in");
+			$("#test").css({
+				top:top+"px",
+				left:left+"px"
+		})
+		});
+		
+	</script>
+
+
+</html>
