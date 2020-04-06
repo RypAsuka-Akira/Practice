@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="chart"
+      style="width: 900px;height: 
+      450px;"
+    ></div>
+  </body>
+  <script src="https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js"></script>
+  <script>
+    let data = {
+      beforedata: [],
+      pauseLine: [],
+      successLine: [],
+      defaultLine: []
+    }
+    let basicValue = 10
+    let pauseValue = 40
+
+    let totalLength = 90 //总数
+    const step = 3 //段数
+    const stepLength = totalLength / step
+
+    let fn1 = i => '-'
+    let fn2 = i => 10 * Math.sin(Math.random() * Math.PI) + i + basicValue
+    let fn3 = i =>
+      10 * Math.sin(Math.random() * Math.PI) + i + basicValue - stepLength
+    let fn4 = i =>
+      2 * pauseValue + 10 * Math.sin(Math.random() * Math.PI) - i + basicValue
+    let fn5 = i => pauseValue
+
+    function initData(which, ...fn) {
+      for (let i = 0; i < totalLength; i++) {
+        if (i < 30) {
+          which[i] = fn[0](i)
+        } else if (i >= 30 && i < 60) {
+          which[i] = fn[1](i)
+        } else {
+          which[i] = fn[2](i)
+        }
+      }
+    }
+
+    initData(data.beforedata, fn2, fn1, fn1)
+    initData(data.pauseLine, fn1, fn5, fn1)
+    initData(data.successLine, fn1, fn1, fn3)
+    initData(data.defaultLine, fn1, fn1, fn4)
+
+    //连接
+    data.beforedata[stepLength] = data.pauseLine[stepLength]
+    data.successLine[stepLength * 2 - 1] = data.pauseLine[stepLength * 2 - 1]
+    data.defaultLine[stepLength * 2 - 1] = data.pauseLine[stepLength * 2 - 1]
+    console.log(data)
+
+    let xAxis = []
+    let str = ['上市前', '调停', '上市后']
+    for (let i = 0; i < 90; i++) {
+      // xAxis.push(i)
+      if ((i + 15) % 30 == 0) {
+        console.log(i)
+        xAxis.push(str[(i + 15) / 30 - 1])
+      } else {
+        xAxis.push('')
+      }
+    }
+
+    let mychart = echarts.init(document.getElementById('chart'))
+    let option = {
+      legend: {},
+      xAxis: [
+        {
+          type: 'category',
+          data: xAxis,
+          name: 'time',
+          nameTextStyle: {
+            fontSize: 18,
+            fontWeight: 400
+          },
+          axisTick: {
+            show: false
+          }
+        },
+        {
+          type: 'category',
+          data: ['', '', ''],
+          name: '',
+          nameTextStyle: {
+            fontSize: 18,
+            fontWeight: 400
+          },
+          axisTick: {
+            show: true
+          }
+        }
+      ],
+      yAxis: {
+        type: 'value',
+        name: 'data',
+        nameTextStyle: {
+          fontSize: 18,
+          fontWeight: 400
+        },
+        max: 100
+      },
+      label: {},
+      tooltip: {
+        trigger: 'axis'
+      },
+      series: [
+        {
+          name: 'before',
+          data: data.beforedata,
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'black'
+            }
+          }
+        },
+        {
+          name: 'pause',
+          data: data.pauseLine,
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'black',
+              type: 'dashed'
+            }
+          }
+        },
+        {
+          name: 'sucess',
+          data: data.successLine,
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'red'
+            }
+          }
+        },
+        {
+          name: 'default',
+          data: data.defaultLine,
+          type: 'line',
+          lineStyle: {
+            normal: {
+              color: 'green'
+            }
+          }
+        }
+      ]
+    }
+
+    mychart.setOption(option)
+  </script>
+  <style></style>
+</html>

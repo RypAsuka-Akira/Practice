@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>埋点</title>
+    <script src="http://s.thsi.cn/js/m/v2/business/stat.js"></script>
+    <script src="http://s.thsi.cn/js/jquery-1.9.1.min.js"></script>
+  </head>
+  <body>
+    <h1>埋点的使用</h1>
+    <ul>
+      <li>作用：捕捉用户操作，无感记录</li>
+      <li>基础包括一些页面的加载事件：加载完成，滚动到底部</li>
+      <li>一般情况下，与用户操作密切相关</li>
+      <li>埋点分为uv和pv，uv：过滤的userid的，pv：不过滤的</li>
+      <li>技术实现：请求一张图片，但是图片的尺寸是0*0</li>
+    </ul>
+    <script>
+      hxmPageStat('free_iwencai_dv_test')
+      $('li').on('click', () => {
+        hxmClickStat('free_iwencai_dv_test.clickLi')
+      })
+    </script>
+  </body>
+</html>
+<!-- hxmPageStat
+hxmClickStat
+
+free_iwencai_dv_huxiji
+free_iwencai_dv_huxiji.loadFrom.ot
+
+http://stat.10jqka.com.cn/q?
+ts=1585828429
+ld=mobile
+platform=gphone
+client_userid=448888270
+opentime=1585828429
+id=free_iwencai_dv_huxiji
+to_frameid=
+to_resourcesid=
+sp=1
+statType=page -->

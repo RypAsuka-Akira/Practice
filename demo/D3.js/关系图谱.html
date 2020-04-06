@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="container">
+      <div class="button" onclick="timer=0;animation();">播放动画</div>
+      <div class="main"></div>
+    </div>
+  </body>
+  <script src="https://cdn.bootcss.com/d3/5.15.0/d3.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    let width = 600
+    let height = 800
+    let clientWidth = document.body.clientWidth
+    let clientHeight = document.body.clientHeight
+    let svg = d3
+      .select('.main')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+
+    let gAll = svg
+      .append('g')
+      .attr('width', width)
+      .attr('height', height)
+
+    let gLine = gAll.append('g')
+    let gCircle = gAll.append('g')
+
+    let locationArray = [] //length = 行数     Array[length] = 列数
+    let arrowHeight = 20
+    let arrowWidth = 15
+    let index = 0
+    let data = {
+      nodes: [
+        {
+          type: 0,
+          label: '雷军',
+          level: 0,
+          img:
+            'https://gss3.bdstatic.com/84oSdTum2Q5BphGlnYG/timg?wapp&quality=80&size=b150_150&subsize=20480&cut_x=0&cut_w=0&cut_y=0&cut_h=0&sec=1369815402&srctrace&di=80faee5398202b586c4bf4ad824a9b54&wh_rate=null&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2Fd1160924ab18972bff5b9a77e0cd7b899e510a2d.jpg'
+        },
+        { type: 1, label: '天津拾米企业管理合作伙伴（有限合伙）', level: 1 },
+        { type: 1, label: '天津未来新视界传媒有限公司', level: 1 },
+        { type: 1, label: '天津金星创业投资有限公司', level: 2 },
+        { type: 1, label: '未来电视有限公司', level: 2 },
+        { type: 1, label: '永杨安风（北京）科技股份有限公司', level: 3 },
+        { type: 0, label: '马化腾', level: 3 },
+        { type: 1, label: '深圳市腾讯计算机系统有限公司', level: 4 }
+      ],
+      links: [
+        { from: 0, to: 1, label: '投资' },
+        { from: 0, to: 2, label: '董事' },
+        { from: 3, to: 1, label: '投资' },
+        { from: 4, to: 2, label: '投资' },
+        { from: 3, to: 5, label: '投资' },
+        { from: 6, to: 4, label: '董事' },
+        { from: 7, to: 5, label: '投资' },
+        { from: 6, to: 7, label: '投资' }
+      ]
+    }
+
+    for (let index in data.nodes) {
+      if (!locationArray[data.nodes[index].level]) {
+        locationArray[data.nodes[index].level] = 1
+      } else {
+        locationArray[data.nodes[index].level]++
+      }
+    }
+
+    class Circle {
+      constructor(nodeObj) {
+        this.obj = nodeObj
+        this.radius
+        this.type = nodeObj.type
+        this.label = nodeObj.label
+        this.level = nodeObj.level
+        this.url = nodeObj.img
+        this.x = this.getPoint().x
+        this.y = this.getPoint().y
+        this.index = index
+        this.drawCircle()
+        index++
+      }
+      //获取坐标
+      getPoint() {
+        let point = {
+          x: 0,
+          y: 0
+        }
+        point.y = (height / (locationArray.length + 1)) * (this.level + 1)
+        point.x = (width / (locationArray[this.level] + 1)) * this.getRowIndex()
+        return point
+      }
+      //获取行内位置
+      getRowIndex() {
+        //获取整行元素
+        let thisLevel = data.nodes.filter(item => {
+          return item.level === this.level
+        })
+
+        //获取行内位置
+        let levelIndex = thisLevel.indexOf(this.obj)
+
+        return levelIndex + 1
+      }
+
+      drawCircle() {
+        let bgColor
+        this.type === 0
+          ? ((this.radius = 30), (bgColor = '#EFAEDE'))
+          : ((this.radius = 50), (bgColor = '#5AC7E7'))
+
+        let circleGroups = gCircle
+          .append('g')
+          .attr('x', this.x)
+          .attr('y', this.y)
+          .attr('id', 'circle' + index)
+          .attr('class', 'circle')
+          .attr('near', this.getNear())
+
+        circleGroups
+          .append('circle')
+          .attr('cx', this.x)
+          .attr('cy', this.y)
+          .attr('r', this.radius + 10)
+          .attr('fill', bgColor)
+          .attr('opacity', '0')
+          .attr('id', 'selected' + index)
+          .attr('class', 'selected')
+        if (this.url) {
+          circleGroups
+            .append('pattern')
+            .attr('id', 'pic1')
+            .attr('width', 1)
+            .attr('height', 1)
+            .append('svg:image')
+            .attr('xlink:href', this.url)
+            .attr('width', this.radius * 2)
+            .attr('height', this.radius * 2)
+        }
+        circleGroups
+          .append('circle')
+          .attr('cx', this.x)
+          .attr('cy', this.y)
+          .attr('r', this.radius)
+          .attr('fill', this.url ? `url(#pic1)` : bgColor)
+
+        if (this.label.length <= 5) {
+          circleGroups
+            .append('text')
+            .text(this.label)
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '.35em')
+            .style('font-size', '14px')
+        }
+        if (this.label.length > 5 && this.label.length <= 10) {
+          circleGroups
+            .append('text')
+            .text(this.label.slice(0, 5))
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '-0.2em')
+            .style('font-size', '14px')
+
+          circleGroups
+            .append('text')
+            .text(this.label.slice(5, this.label.length))
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '1em')
+            .style('font-size', '14px')
+        }
+        if (this.label.length > 10) {
+          circleGroups
+            .append('text')
+            .text(this.label.slice(0, 5))
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '-0.5em')
+            .style('font-size', '14px')
+
+          circleGroups
+            .append('text')
+            .text(this.label.slice(5, 10))
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '0.5em')
+            .style('font-size', '14px')
+
+          circleGroups
+            .append('text')
+            .text(`${this.label.slice(10, 12)}...`)
+            .attr('fill', 'white')
+            .attr('x', this.x)
+            .attr('y', this.y)
+            .attr('text-anchor', 'middle')
+            .attr('dy', '1.5em')
+            .style('font-size', '14px')
+        }
+      }
+
+      getNear() {
+        let nearIndex = []
+        for (let item in data.links) {
+          if (data.links[item].from === this.index) {
+            nearIndex.push(data.links[item].to)
+          }
+          if (data.links[item].to === this.index) {
+            nearIndex.push(data.links[item].from)
+          }
+        }
+        return nearIndex
+      }
+    }
+    //记录每个圆的圆心以及半径，以及index
+    let circleArray = []
+
+    for (let item in data.nodes) {
+      let circle = new Circle(data.nodes[item])
+      circleArray.push(circle)
+    }
+
+    class Line {
+      constructor(obj) {
+        this.from = circleArray[obj.from]
+        this.to = circleArray[obj.to]
+        this.label = obj.label
+
+        this.lineArrow = gLine
+          .append('g')
+          .attr('from', this.from.index)
+          .attr('to', this.to.index)
+          .attr('class', 'line')
+        this.lineArrow.append('line')
+        this.lineArrow.append('path')
+        this.lineArrow.append('text')
+        this.drawLine()
+      }
+      drawLine() {
+        //获取弧度
+        // console.log(from, to)
+
+        let tan = Math.abs(
+          (this.from.y - this.to.y) / (this.from.x - this.to.x)
+        )
+        let angle = Math.atan(tan)
+        // console.log(angle * (180 / Math.PI))
+        //获取位置关系来判断计算直线起点终点时，对相应半径余弦正弦的加减
+        //判断终点在以起点为源的X-Y坐标轴的哪一象限
+        let position = {
+          x: 0,
+          y: 0
+        }
+
+        if (this.to.x - this.from.x > 0) {
+          position.x = 1
+        } else {
+          position.x = -1
+        }
+
+        if (this.to.y - this.from.y > 0) {
+          position.y = 1
+        } else {
+          position.y = -1
+        }
+
+        //获取线的起点和终点
+        let start = {}
+        let end = {}
+        start.x = this.from.x + this.from.radius * Math.cos(angle) * position.x
+        start.y = this.from.y + this.from.radius * Math.sin(angle) * position.y
+        end.x = this.to.x + this.to.radius * Math.cos(angle) * -position.x
+        end.y = this.to.y + this.to.radius * Math.sin(angle) * -position.y
+
+        this.lineArrow
+          .select('line')
+          .attr('x1', start.x)
+          .attr('y1', start.y)
+          .attr('x2', end.x)
+          .attr('y2', end.y)
+          .attr('stroke', 'black')
+
+        this.lineArrow
+          .select('path')
+          .attr('d', bezier(arrowWidth, arrowHeight))
+          .attr('stroke', 'red')
+          .attr('fill', 'black')
+          .attr(
+            'transform',
+            `translate(${end.x}, ${end.y}) rotate(${this.getTrueAngle(
+              angle,
+              position
+            )})`
+          )
+        this.lineArrow
+          .select('text')
+          .text(this.label)
+          .attr('text-anchor', 'middle')
+          .style('font-size', 13)
+          .attr(
+            'transform',
+            `translate(${(start.x + end.x) / 2}, ${(start.y + end.y) /
+              2}) rotate(${this.getTrueAngle(angle, position)})`
+          )
+          .attr('dy', '-0.5em')
+      }
+      getTrueAngle(angle, position) {
+        let deg = angle * (180 / Math.PI)
+        if (position.x === -1 && position.y === -1) {
+          return deg
+        }
+        if (position.x === 1 && position.y === -1) {
+          return 180 - deg
+        }
+        if (position.x === 1 && position.y === 1) {
+          return deg + 180
+        }
+        if (position.x === -1 && position.y === 1) {
+          return 360 - deg
+        }
+      }
+    }
+
+    function bezier(width, height) {
+      return `M${height} ${width / 2} Q0 0 ${height} ${-width /
+        2} L0 0 L${height} ${width / 2}`
+    }
+
+    let lineArray = []
+    for (let item in data.links) {
+      let link = new Line(data.links[item])
+      lineArray.push(link)
+    }
+    let circles = d3.selectAll('.circle')
+    circles.call(
+      d3
+        .drag()
+        .on('start', dragStart)
+        .on('end', () => {
+          d3.selectAll('.selected').attr('opacity', '0')
+          let lineArrayClone = lineArray.filter(item => {
+            return (
+              !updateLineFrom.includes(item) && !updateLineTo.includes(item)
+            )
+          })
+          for (let i = 0; i < lineArrayClone.length; i++) {
+            lineArrayClone[i].lineArrow.attr('opacity', '1')
+          }
+
+          let notSelect = allIndex.filter(item => {
+            return !near.includes(item)
+          })
+
+          for (let i = 0; i < notSelect.length; i++) {
+            gCircle.select(`#circle${notSelect[i]}`).attr('opacity', '1')
+          }
+        })
+        .on('drag', draged)
+    )
+    let start = {
+      x: 0,
+      y: 0
+    }
+    let offset = {
+      x: 0,
+      y: 0
+    }
+    svg.attr('x', 100)
+    svg.call(
+      d3
+        .drag()
+        .on('start', () => {
+          start.x = event.x
+          start.y = event.y
+        })
+        .on('drag', () => {
+          const { x, y } = event
+          gAll.attr(
+            'transform',
+            `translate(${x - start.x + offset.x},${y - start.y + offset.y})`
+          )
+        })
+        .on('end', () => {
+          offset.x += event.x - start.x
+          offset.y += event.y - start.y
+        })
+        .subject(() => {
+          return { x: start.x, y: start.y }
+        })
+    )
+    let zoom = d3
+      .zoom()
+      .scaleExtent([0.1, 2])
+      .on('zoom', () => {
+        gAll.attr('transform', d3.event.transform)
+      })
+    svg.call(zoom)
+
+    let updateLineFrom = []
+    let updateLineTo = []
+    let circleIndex
+    let near
+    let allIndex = []
+    for (let i = 0; i < data.nodes.length; i++) {
+      allIndex.push(i)
+    }
+    function dragStart() {
+      //获取相邻元素index
+      let t = d3.select(this)
+      let sel = t.select('.selected')
+      // sel.attr('opacity', '0.5')
+      circleIndex = 1 * t.attr('id')[6] //从ID中获取圆的index,String2Number
+
+      updateLineFrom = []
+      updateLineTo = []
+      for (let i = 0; i < lineArray.length; i++) {
+        if (lineArray[i].from.index === circleIndex) {
+          updateLineFrom.push(lineArray[i])
+        }
+        if (lineArray[i].to.index === circleIndex) {
+          updateLineTo.push(lineArray[i])
+        }
+      }
+
+      near = t.attr('near').split(',') //数组被隐性转化为字符串
+
+      near.push(circleIndex)
+      for (let i = 0; i < near.length; i++) {
+        d3.select(`#selected${near[i]}`).attr('opacity', '0.5')
+      }
+
+      //淡化元素
+      let lineArrayClone = lineArray.filter(item => {
+        return !updateLineFrom.includes(item) && !updateLineTo.includes(item)
+      })
+      for (let i = 0; i < lineArrayClone.length; i++) {
+        lineArrayClone[i].lineArrow.attr('opacity', '0.5')
+      }
+
+      for (let i in near) {
+        near[i] *= 1
+      }
+
+      let notSelect = allIndex.filter(item => {
+        return !near.includes(item)
+      })
+
+      for (let i = 0; i < notSelect.length; i++) {
+        gCircle.select(`#circle${notSelect[i]}`).attr('opacity', '0.5')
+      }
+    }
+    function draged(d) {
+      const { x, y } = d3.event
+
+      let t = d3.select(this).select('.selected')
+      d3.select(this).attr(
+        'transform',
+        `translate(  ${x - t.attr('cx')} ,${y - t.attr('cy')}  )`
+      )
+
+      circleArray[circleIndex].x = x
+      circleArray[circleIndex].y = y
+
+      for (let i = 0; i < updateLineFrom.length; i++) {
+        updateLineFrom[i].from = circleArray[circleIndex]
+        updateLineFrom[i].drawLine()
+      }
+
+      for (let j = 0; j < updateLineTo.length; j++) {
+        updateLineTo[j].to = circleArray[circleIndex]
+        updateLineTo[j].drawLine()
+      }
+    }
+
+    function wait(i) {
+      let near
+      let c = d3.select(`#circle${i}`)
+
+      let nearInit = c.attr('near').split(',') //数组被隐性转化为字符串
+      nearInit.push(i)
+      near = nearInit.map(Number)
+      for (let j = 0; j < near.length; j++) {
+        d3.select(`#selected${near[j]}`).attr('opacity', '0.5')
+      }
+
+      for (let j = 0; j < near.length; j++) {
+        d3.select(`#selected${near[j]}`).attr('opacity', '0')
+      }
+
+      gAll
+        .transition()
+        .attr(
+          'transform',
+          `translate(${width / 2 - c.attr('x')},${height / 2 - c.attr('y')})`
+        )
+        .duration(2000)
+    }
+    let timer = 0
+    function animation() {
+      let c = d3.select(`#circle${timer}`) //获取节点
+      let nearInit = c.attr('near').split(',') //数组被隐性转化为字符串
+      nearInit.push(timer)
+      near = nearInit.map(Number)
+      for (let j = 0; j < near.length; j++) {
+        d3.select(`#selected${near[j]}`).attr('opacity', '0.5')
+      }
+      setTimeout(() => {
+        for (let j = 0; j < near.length; j++) {
+          d3.select(`#selected${near[j]}`).attr('opacity', '0')
+        }
+        animation()
+      }, 2000)
+
+      gAll
+        .transition()
+        .attr(
+          'transform',
+          `translate(${width / 2 - c.attr('x')},${height / 2 - c.attr('y')})`
+        )
+        .duration(2000)
+
+      timer++
+      if (timer >= data.nodes.length) {
+        gAll
+          .transition()
+          .attr('transform', `translate(0,0)`)
+          .duration(2000)
+        return
+      }
+    }
+  </script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html,
+    body,
+    #container {
+      height: 100%;
+    }
+    #container {
+      width: 100%;
+      background-color: #888888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .button {
+      width: 80px;
+      height: 30px;
+      color: #2b2b2b;
+      background-color: #9cebfe;
+      text-align: center;
+      line-height: 30px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      border: #f7a6de 2px solid;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #f7a6de;
+      color: white;
+    }
+    .main {
+      width: 600px;
+      height: 800px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-color: white;
+    }
+    .line {
+      z-index: 0;
+    }
+    .circle {
+      z-index: 5;
+    }
+  </style>
+</html>

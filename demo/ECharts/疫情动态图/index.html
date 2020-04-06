@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+</head>
+<body>
+<input type="file" id="file" style="position: absolute;left: -999px;" />
+<div id="container">
+    <div class="choose"><p>导入</br>文件</p></div>
+  <div class="msg"></div>
+  <div id="map" style="width: 100vw;height: 100vh;"></div>
+</div>
+</body>
+<script src="https://cdn.bootcss.com/echarts/4.6.0/echarts.min.js"></script>
+<script src="https://cdn.bootcss.com/xlsx/0.15.5/xlsx.core.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="china.js"></script>
+<script src="world.js"></script>
+<script>
+   let defaultOpt = {
+    title: '全国疫情发展图',
+    min : 0,
+    max :8000,
+    time : 2000,
+    type: 'china',
+    useLocalStorage : false
+  }
+  let isChina
+  defaultOpt.type ==='china'? isChina = true:isChina=false
+  isChina?($('.msg').css('right','2vw')):($('.msg').css('left','2vw'))
+
+  
+
+
+let color = ['#ffffff', '#4cb0dd', '#265da0']
+let data = []
+let chart = echarts.init(document.getElementById('map'))
+let index = 0
+
+$(document).ready(() => {
+  $('.msg').css({opacity:0})
+
+if(defaultOpt.useLocalStorage){
+  data = localStorage.getItem('data')
+  drawChart(data)
+} else{
+  $('#file').change(() => {
+    let files = event.target.files
+    if (!files) {
+      alert('error!')
+    }
+    // console.log(files)
+    let file = files[0]
+    // console.log(file)
+    let render = new FileReader()
+    render.readAsBinaryString(file)
+    render.onload = function(e) {
+      let data = e.target.result
+      let workbook = XLSX.read(data, {
+        type: 'binary'
+      })
+      //   console.log(workbook)
+
+      let jsonData = XLSX.utils.sheet_to_json(
+        workbook.Sheets[workbook.SheetNames[0]]
+      )
+      data =  initData(jsonData)
+      drawChart(data)
+
+      localStorage.setItem('datav_dynamic_Map_default',data)
+      
+    }
+
+  })
+} 
+})
+
+function initData(data) {
+    console.log(data);
+    
+    let result = []
+    //{time:date,city1:data1,city2:data2...}
+    
+    //{location:city, time1:data1, time2:data2}
+
+    let keys = []//获取日期个数
+    for (let key in data[0]){
+        keys.push(key)
+    }
+    keys.shift()
+    console.log(keys);
+
+    //result初始化
+    for(let i=0; i<keys.length; i++){
+    let resItem = {}
+        resItem.time = keys[i]
+        resItem.data = []
+        result.push(resItem)
+    }
+  
+    
+    for(let i=0; i<data.length; i++){
+        let location = data[i].location
+        for(let j=0; j<keys.length; j++){
+            let dataItem = {
+                name:location,
+                value:data[i][keys[j]]
+            }
+            result[j].data.push(dataItem)
+        }
+        
+    }
+    console.log(result);
+    
+    return result;
+
+}
+
+$('.choose').click(() => {
+  $('#file').click()
+})
+
+// let datadefault = [
+//   { name: '北京', value: Math.round(Math.random() * 8000) },
+//   { name: '天津', value: Math.round(Math.random() * 8000) },
+//   { name: '上海', value: Math.round(Math.random() * 8000) },
+//   { name: '重庆', value: Math.round(Math.random() * 8000) },
+//   { name: '河北', value: Math.round(Math.random() * 8000) },
+//   { name: '河南', value: Math.round(Math.random() * 8000) },
+//   { name: '云南', value: Math.round(Math.random() * 8000) },
+//   { name: '辽宁', value: Math.round(Math.random() * 8000) },
+//   { name: '黑龙江', value: Math.round(Math.random() * 8000) },
+//   { name: '湖南', value: Math.round(Math.random() * 8000) },
+//   { name: '安徽', value: Math.round(Math.random() * 8000) },
+//   { name: '山东', value: Math.round(Math.random() * 8000) },
+//   { name: '新疆', value: Math.round(Math.random() * 8000) },
+//   { name: '江苏', value: Math.round(Math.random() * 8000) },
+//   { name: '浙江', value: Math.round(Math.random() * 8000) },
+//   { name: '江西', value: Math.round(Math.random() * 8000) },
+//   { name: '湖北', value: Math.round(Math.random() * 8000) },
+//   { name: '广西', value: Math.round(Math.random() * 8000) },
+//   { name: '甘肃', value: Math.round(Math.random() * 8000) },
+//   { name: '山西', value: Math.round(Math.random() * 8000) },
+//   { name: '内蒙古', value: Math.round(Math.random() * 8000) },
+//   { name: '陕西', value: Math.round(Math.random() * 8000) },
+//   { name: '吉林', value: Math.round(Math.random() * 8000) },
+//   { name: '福建', value: Math.round(Math.random() * 8000) },
+//   { name: '贵州', value: Math.round(Math.random() * 8000) },
+//   { name: '广东', value: Math.round(Math.random() * 8000) },
+//   { name: '青海', value: Math.round(Math.random() * 8000) },
+//   { name: '西藏', value: Math.round(Math.random() * 8000) },
+//   { name: '四川', value: Math.round(Math.random() * 8000) },
+//   { name: '宁夏', value: Math.round(Math.random() * 8000) },
+//   { name: '海南', value: Math.round(Math.random() * 8000) },
+//   { name: '台湾', value: Math.round(Math.random() * 8000) },
+//   { name: '香港', value: Math.round(Math.random() * 8000) },
+//   { name: '澳门', value: Math.round(Math.random() * 8000) },
+//   { name: '南海诸岛', value: Math.round(Math.random() * 8000) }
+// ]
+
+
+function msg(data) {
+  let time = data.time
+  highLight(data.data, time)
+}
+function highLight(data, time) {
+  let value = []
+
+
+
+  for (let item in data) {
+
+      
+    value.push(data[item].value)
+  }
+  let index = value.indexOf(Math.max(...value))
+  
+  
+  $('.msg').html(
+    `<p>${dateFormatter(time)}</p></br><p>${data[index].name}的今日感染人数为今日最高，为${data[index].value}</p>`
+  )
+  data[index].selected = true
+  data[index].itemStyle = {
+    emphasis: {
+      areaColor: '#e71c52',
+    }
+  }
+}
+function getTitle(title) {
+  return title.split('').join(' ')
+}
+
+
+function dateFormatter(date) {
+  return date.split('.')[0]+'月' +date.split('.')[1]+'日'
+}
+
+
+function drawChart(data) {
+  let option = {
+  backgroundColor: '#404a59',
+  title: {
+    text: getTitle(defaultOpt.title),
+    x: 'center',
+    padding: [40, 0],
+    textStyle: {
+      color: 'white',
+      fontSize: 30,
+      fontWeight: 200
+    }
+  },
+  tooltip: {
+    show: true,
+    trigger: 'item',
+    formatter:  '{b}-确诊以及疑似总人数为：{c}'
+  
+  },
+  series: [
+    {
+      type: 'map',
+      map: defaultOpt.type,
+      itemStyle: {
+        emphasis: {
+          areaColor: '#efaede'
+        }
+      },
+      label: {
+        normal: {
+          formatter: '{b}',
+          show: isChina,
+          textStyle: {
+            color: 'black',
+            fontSize: '14'
+          }
+        }
+      },
+      data: data[index].data
+    }
+  ],
+  visualMap: {
+    min: defaultOpt.min,
+    max: defaultOpt.max,
+    calculable: true,
+    inRange: {
+      color: color //颜色
+    },
+    hoverLink: true,
+    textStyle: {
+      color: '#fff'
+    }
+  }
+}
+console.log(data);
+
+$('.choose').css({opacity:0})
+msg(data[index])
+chart.setOption(option)
+$('.msg').css({opacity:1})
+
+setInterval(() => {
+
+  index++
+  msg(data[index])
+  chart.setOption({
+    series: [
+      {
+        data: data[index].data
+      }
+    ]
+  })
+  
+  if(index===data.length-1){
+    index = -1
+  }
+}, defaultOpt.time)
+}
+
+
+
+</script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+#container {
+  height: 100%;
+}
+#container{
+    background-color:#404a59 ;
+}
+.msg {
+  width: 400px;
+  height: 200px;
+  background-color: #94b6e7;
+  border: 5px solid #ceb2e7;
+  border-radius: 10%;
+  position: absolute;
+  top: 40vh;
+  /* right: 2vw; */
+  z-index: 5;
+  padding: 10px;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.choose {
+  width: 100px;
+  height: 100px;
+  font-size: 25px;
+  color: #FFF;
+  background-image: linear-gradient(
+    to right bottom,
+    rgb(255, 34, 244),
+    #2cf
+  );
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 5px whitesmoke;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(width/2,height/2);
+  z-index: 5;
+}
+</style>
+</html>
