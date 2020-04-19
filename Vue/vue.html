@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<style>
+		[v-cloak]{
+			display: none;
+		}
+		.active{
+			font-size: 20px;
+			color: #00BFFF;
+		}
+	</style>
+	<body>
+		<div id="container">
+			<p v-text="msg"></p>
+			<p v-html="msg2"></p>
+			<p>{{msg}}</p>
+			<p v-cloak>{{msg}}</p>
+			<p v-bind:class='{active:isActive}'>XXXXXX</p>
+			<input type="button" v-on:click="show" :value="val"/>
+			<input type="button" @mouseenter="show" :value="val"/>
+			<p>这个按钮被点击了{{sum}}次</p>
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el:'#container',
+			data:{
+				msg:'好好学习',
+				msg2:'<b>天天向上<b>',
+				id1:'has',
+				isActive:true,
+				val:'按钮',
+				sum:0
+				},
+				methods:{
+					show(){
+						this.sum++;
+					}
+				}
+		})
+	</script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			<p v-text="msg"></p>
+			<input type="button" v-bind:value="val1" v-on:click="bt1"/>
+			<input type="button" v-bind:value="val2" v-on:click="bt2"/>
+			<p v-if="show">{{msg}}</p>
+			<p v-show="show">{{msg}}</p>
+			<button type="button" @click="cli">生成随机数</button>{{num}}
+		</div>
+	
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		let vm = new Vue({
+			el:'#app',
+			data:{
+				msg:'小河流水哗啦啦~哗啦啦~哗啦啦~',
+				val1:'流动',
+				val2:'静止',
+				timer:null,
+				show:false,
+				num:0
+			},
+			methods:{
+				bt1(){
+					// let that = this;
+					// setInterval(function(){
+					// 	var start = that.msg.substring(0,1);
+					// 	var end = that.msg.substring(1);
+					// 	that.msg = end + start;
+					// },400)
+					if(this.timer!=null){
+						return;
+					}
+					this.timer = setInterval( ()=>{
+						var start = this.msg.substring(0,1);
+						var end = this.msg.substring(1);
+						this.msg = end + start;
+					},400)
+				},
+				bt2(){
+					clearInterval(this.timer);
+					this.timer = null;
+				}
+				cli(){
+					this.num = Math.random();
+					if(this.num>0.5){
+						this.show=false;
+					}
+					else{
+						this.show=true;
+					}
+					
+				}
+			}
+		})
+	</script>
+</html>

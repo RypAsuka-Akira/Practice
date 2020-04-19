@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			{{msg}}
+			<button type="button" @click="show">button</button>
+		</div>
+	</body>
+	<script src="vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el:"#app",
+			data:{
+				msg:'Hello World'
+			},
+			methods:{
+				show(){
+					console.log("执行了show方法")
+				}
+			},
+			beforeCreate(){
+				// this.show(),
+				// console.log(msg),
+			},
+			created(){
+				this.show(),
+				console.log(msg),
+			},
+			beforeMount(){
+				console.log(document.getElementById('p1').innerText);
+			},
+			Mounted(){
+				console.log(document.getElementById('p1').innerText);
+			},
+			
+		})
+	</script>
+</html>
